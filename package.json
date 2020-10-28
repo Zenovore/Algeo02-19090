@@ -1,0 +1,23 @@
+{
+  "name": "algeo02-19090",
+  "version": "1.0.0",
+  "description": "Mesin pencarian untuk tugas besar IF2123 tahun 20/21",
+  "main": "src/main.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node src/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zenovore/Algeo02-19090.git"
+  },
+  "author": "Alexander, Alvin Wilta, Josep Marcello",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/Zenovore/Algeo02-19090/issues"
+  },
+  "homepage": "https://github.com/Zenovore/Algeo02-19090#readme"
+}
