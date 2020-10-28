@@ -10,6 +10,12 @@ const config = {
   IP: process.env.TUBES_IP || '127.0.0.1',
 };
 
+app.get('/search/', (req, res) => {
+  res.json({
+    query: req.query.q,
+  });
+});
+
 app.get('/', (req, res) => {
   res.send('Hello, World!');
 });

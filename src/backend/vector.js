@@ -4,7 +4,7 @@
  * [ ] Jsdoc comments
  */
 
-class Vector {
+module.exports = class Vector {
   #arr = [];
   #dict = {};
 
@@ -18,4 +18,4 @@ class Vector {
     this.#arr = fromObj;
     this.#dict = obj;
   }
-}
+};
