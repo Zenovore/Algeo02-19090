@@ -2,13 +2,13 @@
   "name": "algeo02-19090",
   "version": "1.0.0",
   "description": "Mesin pencarian untuk tugas besar IF2123 tahun 20/21",
-  "main": "src/main.js",
+  "main": "src/backend/main.js",
   "directories": {
     "doc": "docs",
     "test": "test"
   },
   "scripts": {
-    "test": "node src/test.js"
+    "test": "node src/backend/test.js"
   },
   "repository": {
     "type": "git",
