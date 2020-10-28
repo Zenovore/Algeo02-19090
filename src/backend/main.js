@@ -1,6 +1,8 @@
 'use strict';
 
 const express = require('express');
+const Vector = require('./vector');
+
 const app = express();
 
 const config = {
