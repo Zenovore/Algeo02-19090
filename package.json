@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/Zenovore/Algeo02-19090/issues"
   },
-  "homepage": "https://github.com/Zenovore/Algeo02-19090#readme"
+  "homepage": "https://github.com/Zenovore/Algeo02-19090#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
