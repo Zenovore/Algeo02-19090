@@ -1,24 +1,34 @@
 'use strict';
 
+/**
+ * Imports
+ */
 const express = require('express');
 const vector = require('./vector');
 const query = require('./query');
 
-const app = express();
-
-const config = {
+// konfigurasi server express baru
+const serverConfig = {
   PORT: process.env.TUBES_PORT || '8080',
   IP: process.env.TUBES_IP || '127.0.0.1',
 };
 
+// Inisialisasi instance express baru
+const app = express();
+
+/**
+ * Routing untuk memberikan query
+ */
 app.get('/search', (req, res) => {
   const obj = query.toObj(req.query.q);
   let vec = new vector.Vector(obj);
-  console.log(vec._key);
-  console.log(vec._val);
-  res.json(vec._dict);
+  console.log({ val: vec.val, key: vec.key });
+  res.json(vec.obj);
 });
 
+/**
+ * Routing ke start-page
+ */
 app.get('/', (req, res) => {
   if (req.query.name) {
     res.send(`Hello, ${req.query.name}`);
@@ -27,6 +37,9 @@ app.get('/', (req, res) => {
   }
 });
 
-app.listen(config.PORT, () => {
-  console.log(`App running at http://${config.IP}:${config.PORT}`);
+/**
+ * Nge-start instance express
+ */
+app.listen(serverConfig.PORT, () => {
+  console.log(`App running at http://${serverConfig.IP}:${serverConfig.PORT}`);
 });

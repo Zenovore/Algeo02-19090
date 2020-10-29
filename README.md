@@ -48,8 +48,8 @@ dapat diukur dengan cosine similarity
 
 ## Setup<a href="setup"></a>
 1. Buka terminal
-1. Lakukan `git clone git@github.com:xenovore/Algeo02-19090` atau `git clone
-   https://github.com/xenovore/Algeo02-19090`
+1. Lakukan `git clone git@github.com:zenovore/Algeo02-19090` atau `git clone
+   https://github.com/zenovore/Algeo02-19090`
 1. Jalankan `npm install`
 
 ## Code Examples
@@ -72,6 +72,6 @@ Credits
 
 | Nama | NIM | Kerjaan |
 |------|-----|---------|
-| Alexander | 13519090 | - |
-| Josep Marcello | 13519164 | - |
-| Alvin Wilta | 13519162 | - |
+| Alexander | 13519090 | TBD |
+| Alvin Wilta | 13519163 | TBD |
+| Josep Marcello | 13519164 | TBD |

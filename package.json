@@ -10,7 +10,7 @@
   "scripts": {
     "test": "node src/backend/test.js",
     "start": "node src/backend/main.js",
-    "doc": "node_modules/.bin/jsdoc -d docs src/backend/main.js"
+    "doc": "node_modules/.bin/jsdoc -d docs src/backend/*.js"
   },
   "repository": {
     "type": "git",
