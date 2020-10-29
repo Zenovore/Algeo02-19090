@@ -1,7 +1,8 @@
 'use strict';
 
 const express = require('express');
-const Vector = require('./vector');
+const vector = require('./vector');
+const query = require('./query');
 
 const app = express();
 
@@ -10,14 +11,20 @@ const config = {
   IP: process.env.TUBES_IP || '127.0.0.1',
 };
 
-app.get('/search/', (req, res) => {
-  res.json({
-    query: req.query.q,
-  });
+app.get('/search', (req, res) => {
+  const obj = query.toObj(req.query.q);
+  let vec = new vector.Vector(obj);
+  console.log(vec._key);
+  console.log(vec._val);
+  res.json(vec._dict);
 });
 
 app.get('/', (req, res) => {
-  res.send('Hello, World!');
+  if (req.query.name) {
+    res.send(`Hello, ${req.query.name}`);
+  } else {
+    res.send('Hello, World!');
+  }
 });
 
 app.listen(config.PORT, () => {
