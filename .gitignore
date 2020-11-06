@@ -123,3 +123,4 @@ dist
 # End of https://www.toptal.com/developers/gitignore/api/node,vscode
 
 coc-settings.json
+docs/*.xopp
