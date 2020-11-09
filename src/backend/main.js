@@ -4,6 +4,10 @@
  * Imports
  */
 const express = require('express');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
 const vector = require('./vector');
 const query = require('./query');
 
@@ -30,23 +34,11 @@ app.get('/search', (req, res) => {
  * Routing ke start-page
  */
 app.get('/', (req, res) => {
-  if (req.query.name) {
-    res.send(`Hello, ${req.query.name}`);
-  } else {
-    res.send('Hello, World!');
-  }
+  res.sendFile(path.join(__dirname, '../frontend/index.html'));
 });
 
-/**
- * Nge-start instance express
- */
-app.listen(serverConfig.PORT, () => {
-  console.log(`App running at http://${serverConfig.IP}:${serverConfig.PORT}`);
-});
 
-/**
- * Fungsi bantuan untuk menerima file txt/html saja
- */
+
 const filterfile = function(req, file, cb) {
   // Accept txt or html only
   if (!file.originalname.match(/\.(txt|html)$/i)) {
@@ -56,15 +48,30 @@ const filterfile = function(req, file, cb) {
   cb(null, true);
 };
 
-var upload = multer({storage : storage,fileFilter : filterfile}).array('files',10);
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+      let dir = "./uploads";
+      if (!fs.existsSync(dir)){
+          fs.mkdirSync(dir);
+      }
+      cb(null,dir)
+  },
+
+  // By default, multer removes file extensions so let's add them back
+  filename: function(req, file, cb) {
+      cb(null, file.originalname);
+  }
+})
+
+let upload = multer({storage : storage,fileFilter : filterfile}).array('files',10);
 app.post("/upload", (req,res)=>{
   upload(req,res, (err) =>{
       if (req.fileValidationError){
           return res.send(req.fileValidationError);
       }
-      else if (!req.file){
-          return res.send('Dah berhasil ya'+'\n<hr/><a href="./">Upload more images</a>');
-          
+      else if (req.files){
+          console.log(req.files);
+          return res.send('Dah berhasil ya'+'\n<hr/><a href="./">Upload more files</a>');
       }
       else if (err instanceof multer.MulterError) {
           return res.send(err);
@@ -73,4 +80,8 @@ app.post("/upload", (req,res)=>{
           return res.send(err);
       }
   })
-})
+});
+
+app.listen(serverConfig.PORT, () => {
+  console.log(`App running at http://${serverConfig.IP}:${serverConfig.PORT}`);
+});

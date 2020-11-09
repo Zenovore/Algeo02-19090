@@ -22,6 +22,7 @@ class Vector {
       vals.push(obj[key]);
       keys.push(key);
     }
+    
 
     // Ngeset atribut/member vektor
     this.val = vals;
