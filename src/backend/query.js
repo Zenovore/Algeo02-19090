@@ -1,3 +1,16 @@
+/* *** Bentuk object untuk document *** */
+/* doc = {
+ *  filename : Val, // dari awal
+ *  konten : Val, // dari awal
+ *  vektor : Val, // ditambah di tengah
+ *  similarity : Val, // ditambah di tengah
+ * },
+ *
+ * untuk menyimpan kata-kata pada query, akan digunakan suatu list of
+ * strings
+ * queryWords = [Q1, Q2, Q3, ...]
+ */
+
 'use strict';
 const sastrawi = require('sastrawijs');
 
@@ -44,5 +57,38 @@ const toObj = (query) => {
 
   return obj;
 };
+
+/**
+ * Fungsi untuk menge-sort similarity dari object-object dokumen pada suatu list
+ * of objects. Property similarity akan disort secara descending dari besar
+ * ke kecil.
+ * @param {object[]} - list of objects yang akan di-sort similarity-nya
+ * @returns void
+ */
+const sortSimilaritiesDsc = (arrObj) => {
+  arrObj.sort((a, b) => b.similarity - a.similarity);
+};
+
+/* -- untuk nguji fungsi sort similarity -- */
+/*
+const doc1 = {
+  filename: '../tmpDocs/doc1.txt',
+  konten: 'Perekonomian Indonesia',
+  vektor: [1, 1, 0, 0, 0],
+  similarity: 0.865,
+};
+
+const doc2 = {
+  filename: '../tmpDocs/doc2.html',
+  konten: 'Perekonomian Indonesia meningkat',
+  vektor: [1, 1, 1, 0, 0],
+  similarity: 0.9,
+};
+
+const list = [doc1, doc2];
+console.log(list);
+sortSimilaritiesDsc(list);
+console.log(list);
+*/
 
 exports.toObj = toObj;
