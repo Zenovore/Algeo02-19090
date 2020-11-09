@@ -8,7 +8,9 @@
     "test": "test"
   },
   "scripts": {
-    "test": "node src/backend/test.js"
+    "test": "node src/backend/test.js",
+    "start": "node src/backend/main.js",
+    "doc": "node_modules/.bin/jsdoc -d docs src/backend/*.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +23,9 @@
   },
   "homepage": "https://github.com/Zenovore/Algeo02-19090#readme",
   "dependencies": {
-    "express": "^4.17.1"
-  }
+    "express": "^4.17.1",
+    "jsdoc": "^3.6.6",
+    "sastrawijs": "^1.0.3"
+  },
+  "devDependencies": {}
 }
