@@ -64,7 +64,6 @@ app.post("/upload", (req,res)=>{
       }
       else if (!req.file){
           return res.send('Dah berhasil ya'+'\n<hr/><a href="./">Upload more images</a>');
-          
       }
       else if (err instanceof multer.MulterError) {
           return res.send(err);
