@@ -43,3 +43,34 @@ app.get('/', (req, res) => {
 app.listen(serverConfig.PORT, () => {
   console.log(`App running at http://${serverConfig.IP}:${serverConfig.PORT}`);
 });
+
+/**
+ * Fungsi bantuan untuk menerima file txt/html saja
+ */
+const filterfile = function(req, file, cb) {
+  // Accept txt or html only
+  if (!file.originalname.match(/\.(txt|html)$/i)) {
+      req.fileValidationError  = 'Punten ka, file .txt atau html aja ya';
+      return cb(new Error('Punten ka, file .txt atau html aja ya'), false);
+  }
+  cb(null, true);
+};
+
+var upload = multer({storage : storage,fileFilter : filterfile}).array('files',10);
+app.post("/upload", (req,res)=>{
+  upload(req,res, (err) =>{
+      if (req.fileValidationError){
+          return res.send(req.fileValidationError);
+      }
+      else if (!req.file){
+          return res.send('Dah berhasil ya'+'\n<hr/><a href="./">Upload more images</a>');
+          
+      }
+      else if (err instanceof multer.MulterError) {
+          return res.send(err);
+      }
+      else if (err) {
+          return res.send(err);
+      }
+  })
+})
