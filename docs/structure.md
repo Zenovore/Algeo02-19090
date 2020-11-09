@@ -1,20 +1,23 @@
 ADT:
-   - [ ] Vector.js (coba riset lagi ttg OOP di JS) => Bareng-bareng
+   <!-- - [ ] Vector.js (coba riset lagi ttg OOP di JS) => Bareng-bareng -->
 Backend:
-   - [ ] main.js => handle routing
-      - [ ] set up express, Josep
-      - [ ] getDocs (Nerima file-file uploadan, gampang, baca tutorial aja), Alex
-   - [ ] query.js => handle query, documents, ngitung similarities
-      - [ ] parseDocs (HTML, gampang, pake node-html-parser), Alvin
-      - [ ] cleaner (Stemming & hapusin stop-words, medium, pake regex & sastrawijs), Josep
-      - [ ] toDict (Ngambil jumlah kemunculan tiap kata dari query dan documents, gampang, pake for each), Alex
-      - [ ] toVector (Ngubah query dan isi file ke vektor, ga tau??), Alvin
-      - [ ] similarRate (Hitung similarities-nya), Josep (bareng2 yuk :( )
+   - [x] main.js => handle routing
+   - [O] query.js => handle query, documents, ngitung similarities
+      - [x] Upload => mengupload file ke local.
+      - [x] Stemming => ngestem string (Josep)
+      - [x] removeStopwords => menghapus stopwords (Alex)
+      - [x] toObj => mengubah string menjadi JS object (Alex)
+      - [ ] toVec => mengubah JS objek menjadi vektor (Alex)
+      - [ ] docSimilarities => menghitung similarities dari vector (Alvin)
+      - [x] Sort => mengurutkan dokumen sesuai dengan similarities (Josep)
+   - [x] parseDocs.js (Alvin)
+      - [x] extractHTML => strip HTML jadi text
+      - [x] parseDoc => Mengubah .txt dan .html menjadi object (Alvin)
    - Optional:
       - [ ] Web scraper
 Frontend:
-   - [ ] index.html
-   - [ ] style.css
-   - [ ] index.js
+   - [O] index.html
+   - [O] style.css
+   - [O] index.js
       - [ ] Vue, bareng-bareng
       - [ ] createTable (bikin tabel dari vektor2)
