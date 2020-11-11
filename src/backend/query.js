@@ -1,3 +1,5 @@
+'use strict';
+
 /* *** Bentuk object untuk document *** */
 /* doc = {
  *  filename : Val, // dari awal
@@ -11,7 +13,6 @@
  * queryWords = [Q1, Q2, Q3, ...]
  */
 
-'use strict';
 const sastrawi = require('sastrawijs');
 const stopwords = require('./stopwords');
 
@@ -22,7 +23,7 @@ const stopwordsEN = stopwords.stopwordsEN;
  * Fungsi untuk membersikan string dari punctuation dan merapihkan kata-kata
  * (menge-stem).
  * @param {string} - string yang ingin di-stem
- * @returns {string[]} Array yang tiap elemen adalah kata dari string yang
+ * @returns {string} Array yang tiap elemen adalah kata dari string yang
  * sudah di-stem
  */
 const stemString = (string) => {
@@ -37,7 +38,7 @@ const stemString = (string) => {
     stemmed.push(stemmer.stem(word));
   }
 
-  return stemmed;
+  return stemmed.join(' ');
 };
 
 /**
@@ -62,7 +63,7 @@ const removeStopwords = (string) => {
  * Javascript object memiliki kata dalam string sebagai key dan
  * jumlah kemunculan kata dalam string sebaga value.
  * @param {string} query - String yang ingin diubah menjadi javascript object.
- * @returns {object} Object JS berisi string dan kemunculannya pada query.
+ * @returns {object} Object JS berisi pasangan string dan kemunculannya pada query.
  */
 const toObj = (query) => {
   let obj = {};
@@ -86,4 +87,21 @@ const toObj = (query) => {
  */
 const sortSimilaritiesDsc = (arrObj) => {
   arrObj.sort((a, b) => b.similarity - a.similarity);
+};
+
+/**
+ * TODO: comments
+ */
+const createQueryWordList = (query) => {
+  return query.split(' ');
+};
+
+/**
+ * TODO: comments
+ */
+const cleanString = (str) => {
+  str = stemString(str);
+  str = removeStopwords(str);
+
+  return str;
 };

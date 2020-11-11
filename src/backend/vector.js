@@ -1,9 +1,8 @@
 'use strict';
 
-/* TODO:
- * [ ] comments
- */
-
+/* Semua yang ada di bawah batas ini dapat dibuang, tapi tidak dahulu
+ * karena dapat digunakan untuk refrensi */
+/* *** BATAS *** */
 /**
  * Vektor dari object kata-kata
  * @class Vector
@@ -22,7 +21,6 @@ class Vector {
       vals.push(obj[key]);
       keys.push(key);
     }
-    
 
     // Ngeset atribut/member vektor
     this.val = vals;

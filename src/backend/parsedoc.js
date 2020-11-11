@@ -1,3 +1,5 @@
+'use strict';
+
 // import module
 let fs = require('fs');
 const jsdom = require('jsdom');
@@ -12,12 +14,10 @@ let DocList = [];
 const extractHTML = (val) => {
   const acceptedTags = 'p, h1, h2, h3, h4, h5, h6';
   const dom = new JSDOM(val);
-  let content1 = "";
-  const content = dom.window.document
-    .querySelectorAll(acceptedTags)
-    .forEach((el) => {
-      content1 += (el.textContent);
-    });
+  let content1 = '';
+  dom.window.document.querySelectorAll(acceptedTags).forEach((el) => {
+    content1 += el.textContent;
+  });
 
   return content1;
 };
@@ -29,12 +29,11 @@ const extractHTML = (val) => {
  * @returns {object} -  Document objet dari file
  */
 const createDoc = (name, konten) => {
-  return ({
+  return {
     fileName: name,
     konten: konten,
-  });
+  };
 };
-
 
 /**
  * Memparse dokumen dari .txt maupun .html (asynchronous)
@@ -44,7 +43,7 @@ const createDoc = (name, konten) => {
 const parseDoc = (filePath) => {
   // data adalah isi dari file
   let doc = {};
-  let data = fs.readFileSync(filePath, {encoding:'utf8'});
+  let data = fs.readFileSync(filePath, { encoding: 'utf8' });
   let fileName = filePath.replace(/^.*[\\\/]/, '');
   if (fileName.split('.').pop() === 'txt') {
     doc = createDoc(fileName, data);
@@ -56,20 +55,19 @@ const parseDoc = (filePath) => {
   return doc;
 };
 
-
 /**
  * Memparse semua file txt dan html pada sebuah directory
  * Jalanin setiap mau search
  * @param {string} - folder directory file-file
- * @returns {object[]} - list berisi object tiap file dokumen 
+ * @returns {object[]} - list berisi object tiap file dokumen
  */
 const readAllDoc = (fileDir) => {
-    let filelist = fs.readdirSync(fileDir);
-    for(i = 0; i < filelist.length; i++) {
-        DocList.push(parseDoc(fileDir + filelist[i]));
-    }
-    return DocList;
-}
+  let filelist = fs.readdirSync(fileDir);
+  for (let i = 0; i < filelist.length; i++) {
+    DocList.push(parseDoc(fileDir + filelist[i]));
+  }
+  return DocList;
+};
 
 /**
  * Menghitung cosine similarity dari query dan dokumen
@@ -78,21 +76,20 @@ const readAllDoc = (fileDir) => {
  * @param {vector} D - vektor Dokumen
  * @returns {float} - similarity
  */
-const cosineSim = (Q,D) => {
-    let dotproduct=0; // Q . D
-    let mQ=0; // ||Q||
-    let mD=0; // ||D||
-    for(i = 0; i < Q.length; i++) { 
-        dotproduct += (Q[i] * D[i]);
-        mQ += (Q[i]*Q[i]);
-        mD += (D[i]*D[i]);
-    }
-    mQ = Math.sqrt(mQ);
-    mD = Math.sqrt(mD);
-    let similarity = (dotproduct)/((mQ)*(mQ)) // rumus cosine sim
-    return similarity;
-}
-
+const cosineSim = (Q, D) => {
+  let dotproduct = 0; // Q . D
+  let mQ = 0; // ||Q||
+  let mD = 0; // ||D||
+  for (i = 0; i < Q.length; i++) {
+    dotproduct += Q[i] * D[i];
+    mQ += Q[i] * Q[i];
+    mD += D[i] * D[i];
+  }
+  mQ = Math.sqrt(mQ);
+  mD = Math.sqrt(mD);
+  let similarity = dotproduct / (mQ * mQ); // rumus cosine sim
+  return similarity;
+};
 
 // var array1 = [1,0,0,1];
 // var array2 = [1,0,0,0];
@@ -100,7 +97,6 @@ const cosineSim = (Q,D) => {
 // var p = cosineSim(array1,array2);
 
 // console.log(p);
-
 
 //console.log(parseDoc('../../test/Lipsum.html'));
 //console.log(parseDoc('../../test/Kuis1.txt'));
