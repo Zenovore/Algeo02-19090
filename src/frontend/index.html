@@ -11,21 +11,39 @@
   </head>
   <body>
     <!-- Navbar -->
-    <div class="content">
-      <img class="content_background" src="img/background.jpg" />
-      <div class="content_title">Search It!</div>
+    <div class="topbar" style="letter-spacing:4px;">
+        <a href="#home" class="topbar-item topbar-button">Search It! ^_^)b</a>
+        <!-- Right-sided navbar links. Hide them on small screens -->
+        <div class="topbar-right">
+            <a href="#search" class="topbar-item topbar-button">Search</a>
+            <a href="#about" class="topbar-item topbar-button">About</a>
+        </div>
     </div>
-    <div class="search-bar">
-      <h1>Yuk Upload sini</h1>
-      <form method="POST" action="/upload" enctype="multipart/form-data">
-      <div>
-          <label>Select multiple file:</label>
-          <input type="file" name="files" multiple />
-      </div>
-      <div>
-          <button type="submit">Upload</button>
-      </div>
-  </form>
+      
+    <div class="content">
+        <!-- <img class="content_background" src="img/background.jpg" /> -->
+        <div class="content-title ">Search It!</div>
+        <div class="search-bar "> <input type="text" placeholder="Type query here..."> </div>
+        <div class="content-upload">
+            <h1 style="color:white;">Upload here</h1>
+            <form method="POST" action="/upload" enctype="multipart/form-data">
+                <div>
+                    <label>Select multiple file:</label>
+                    <input type="file" name="files" multiple />
+                </div>
+                <div>
+                    <button type="submit">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="table">
+        <p>TEST ini buat nampilin tabel</p>
+    </div>
+
+    <div class="search-result">
+        <p>TEST ini buat nampilin hasil search</p>
     </div>
   </body>
 </html>
