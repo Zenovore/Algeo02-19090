@@ -12,13 +12,14 @@ let DocList = [];
 const extractHTML = (val) => {
   const acceptedTags = 'p, h1, h2, h3, h4, h5, h6';
   const dom = new JSDOM(val);
+  let content1 = "";
   const content = dom.window.document
     .querySelectorAll(acceptedTags)
     .forEach((el) => {
-      console.log(el.textContent);
+      content1 += (el.textContent);
     });
 
-  return content;
+  return content1;
 };
 
 /**
