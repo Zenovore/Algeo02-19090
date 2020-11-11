@@ -10,6 +10,8 @@ const fs = require('fs');
 
 const proc = require('./process');
 
+const GFilesList = []; // List files objects
+
 // konfigurasi server express baru
 const serverConfig = {
   PORT: process.env.TUBES_PORT || '8080',
@@ -20,13 +22,25 @@ const serverConfig = {
 const app = express();
 
 /**
- * Routing untuk memberikan query
+ * Routing untuk memberikan query search
  */
 app.get('/search', (req, res) => {
-  const obj = query.toObj(req.query.q);
-  let vec = new vector.Vector(obj);
-  console.log({ val: vec.val, key: vec.key });
-  res.json(vec.obj);
+  const query = req.query.q;
+
+  proc.mainProcess(query, GFilesList);
+
+  res.send(query);
+});
+
+/**
+ * Routing untuk menguji searching
+ */
+app.get('/test', (req, res) => {
+  const query = req.query.q;
+
+  proc.testProcess(query);
+
+  res.send(query);
 });
 
 /**
@@ -45,6 +59,9 @@ const filterfile = function (req, file, cb) {
   cb(null, true);
 };
 
+/**
+ * Nyiapin storage untuk multer
+ */
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     let dir = './uploads';
@@ -60,16 +77,29 @@ const storage = multer.diskStorage({
   },
 });
 
+/**
+ * Routing untuk nerima upload
+ * TODO: Cek bisa ga tiap abis upload file-nya lgsg diproses lalu
+ * ditambah ke list */
 let upload = multer({ storage: storage, fileFilter: filterfile }).array(
   'files',
-  10
+  15
 );
 app.post('/upload', (req, res) => {
   upload(req, res, (err) => {
     if (req.fileValidationError) {
       return res.send(req.fileValidationError);
     } else if (req.files) {
-      console.log(req.files);
+      // File berhasil diterima
+      const fileRE = /(text|html)$/i;
+      console.log(`Received ${req.files.length} files`);
+      console.log(req.files, '\n');
+
+      // Kalo filenya plaintext atau HTML, masukin ke list
+      if (fileRE.test(req.files.filename)) {
+        GFilesList.push(parseDoc(fileDir + req.files.filename));
+      }
+
       return res.send(
         'Dah berhasil ya' + '\n<hr/><a href="./">Upload more files</a>'
       );
@@ -80,8 +110,6 @@ app.post('/upload', (req, res) => {
     }
   });
 });
-
-proc.mainProcess();
 
 app.listen(serverConfig.PORT, () => {
   console.log(`App running at http://${serverConfig.IP}:${serverConfig.PORT}`);

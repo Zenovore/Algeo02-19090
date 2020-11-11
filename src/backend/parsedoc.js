@@ -68,8 +68,6 @@ const readAllDoc = (fileDir) => {
     return fileRE.test(e);
   });
 
-  console.log(`fileList: ${fileList}`);
-  console.log(`tempFileList: ${tempFileList}`);
   for (let i = 0; i < fileList.length; i++) {
     DocList.push(parseDoc(fileDir + fileList[i]));
   }
@@ -85,7 +83,7 @@ const readAllDoc = (fileDir) => {
 
 //console.log(parseDoc('../../test/Lipsum.html'));
 //console.log(parseDoc('../../test/Kuis1.txt'));
-console.log(readAllDoc('../../test/'));
+//console.log(readAllDoc('../../test/'));
 
 //exports.parseDoc = parseDoc;
 

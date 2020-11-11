@@ -1,5 +1,3 @@
-'use strict';
-
 /* *** Bentuk object untuk document *** */
 /* doc = {
  *  filename : Val, // dari awal
@@ -23,7 +21,7 @@ const stopwordsEN = stopwords.stopwordsEN;
 /**
  * Fungsi untuk membersikan string dari punctuation dan merapihkan kata-kata
  * (menge-stem).
- * @param {string} - string yang ingin di-stem
+ * @param {string} string - string yang ingin di-stem
  * @returns {string} Array yang tiap elemen adalah kata dari string yang
  * sudah di-stem
  */
@@ -44,7 +42,7 @@ const stemString = (string) => {
 
 /**
  * Fungsi untuk membersikan string dari stopwords dalam bahasa Indonesia
- * @param {string} - string yang ingin di-stopword
+ * @param {string} string - string yang ingin di-stopword
  * @returns {string} string yang stopwordnya sudah dibuang jauh jauh.
  */
 const removeStopwords = (string) => {
@@ -70,11 +68,23 @@ const removeStopwords = (string) => {
 };
 
 /**
+ * Fungsi yang menggabungkan stemming dan penghapusan stopwords
+ * @params {string} str - string yang ingin dibershikan
+ * @Returns {string} - str yang sudah dibershikan
+ */
+const cleanString = (str) => {
+  str = stemString(str);
+  str = removeStopwords(str);
+
+  return str;
+};
+
+/**
  * Fungsi untuk mengubah menjadi javascript object.
  * Javascript object memiliki kata dalam string sebagai key dan
  * jumlah kemunculan kata dalam string sebaga value.
  * @param {string} query - String yang ingin diubah menjadi javascript object.
- * @returns {object} Object JS berisi pasangan string dan kemunculannya pada query.
+ * @returns {object} - Object JS berisi pasangan string dan kemunculannya pada query.
  */
 const toObj = (query) => {
   let obj = {};
@@ -91,31 +101,33 @@ const toObj = (query) => {
 };
 
 /**
+ * Membuat object dokumen yang key-nya dari kata-kata pada query dan valuenya
+ * adalah jumlah kemunculan kata-kata pada konten dokumen
+ * @params {string} docContent - konten dokumen
+ * @params {string[]} queryWordList - list kata-kata pada dokumen
+ * @Returns {object} - sesuai pada deskripsi fungsi
+ */
+const createDocQueryObj = (docContent, queryWordList) => {
+  const docObj = toObj(docContent);
+  const retObj = {};
+
+  for (const idx in queryWordList) {
+    const key = queryWordList[idx];
+    retObj[key] = key in docObj ? docObj[key] : 0;
+  }
+
+  return retObj;
+};
+
+/**
  * Fungsi untuk menge-sort similarity dari object-object dokumen pada suatu list
  * of objects. Property similarity akan disort secara descending dari besar
  * ke kecil.
- * @param {object[]} - list of objects yang akan di-sort similarity-nya
+ * @param {object[]} arrObj - list of objects yang akan di-sort similarity-nya
  * @returns void
  */
 const sortSimilaritiesDsc = (arrObj) => {
   arrObj.sort((a, b) => b.similarity - a.similarity);
-};
-
-/**
- * TODO: comments
- */
-const createQueryWordList = (query) => {
-  return query.split(' ');
-};
-
-/**
- * TODO: comments
- */
-const cleanString = (str) => {
-  str = stemString(str);
-  str = removeStopwords(str);
-
-  return str;
 };
 
 /**
@@ -149,6 +161,46 @@ const toVector = (obj) => {
 };
 
 /* ========== MAIN =========== */
-exports.mainProcess = () => {
-  console.log('hello, world!');
+/**
+ * Fungsi proses yang digunakan untuk menguji algoritma pencarian
+ * @params {string} query - query search
+ */
+exports.testProcess = (query) => {
+  query = cleanString(query);
+  const queryVec = toVector(toObj(query));
+  const queryWordList = query.split(' ');
+
+  const filePath = 'test/';
+  const docs = parsedoc.readAllDoc(filePath);
+
+  docs.forEach((el) => {
+    el.konten = cleanString(el.konten);
+    el.vector = toVector(createDocQueryObj(el.konten, queryWordList));
+    el.similarity = cosineSim(queryVec, el.vector);
+  });
+
+  sortSimilaritiesDsc(docs);
+
+  console.log(docs);
+};
+
+/**
+ * Fungsi proses yang digunakan untuk menguji algoritma pencarian
+ * @params {string} query - query search
+ * @params {object[]} docs - berisi object dokumen
+ */
+exports.mainProcess = (query, docs) => {
+  query = cleanString(query);
+  const queryVec = toVector(toObj(query));
+  const queryWordList = query.split(' ');
+
+  docs.forEach((el) => {
+    el.konten = cleanString(el.konten);
+    el.vector = toVector(createDocQueryObj(el.konten, queryWordList));
+    el.similarity = cosineSim(queryVec, el.vector);
+  });
+
+  sortSimilaritiesDsc(docs);
+
+  console.log(docs);
 };
