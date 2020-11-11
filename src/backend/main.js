@@ -8,8 +8,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-const vector = require('./vector');
-const query = require('./query');
+const proc = require('./process');
 
 // konfigurasi server express baru
 const serverConfig = {
@@ -81,6 +80,8 @@ app.post('/upload', (req, res) => {
     }
   });
 });
+
+proc.mainProcess();
 
 app.listen(serverConfig.PORT, () => {
   console.log(`App running at http://${serverConfig.IP}:${serverConfig.PORT}`);

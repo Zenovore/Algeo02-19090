@@ -62,9 +62,16 @@ const parseDoc = (filePath) => {
  * @returns {object[]} - list berisi object tiap file dokumen
  */
 const readAllDoc = (fileDir) => {
-  let filelist = fs.readdirSync(fileDir);
-  for (let i = 0; i < filelist.length; i++) {
-    DocList.push(parseDoc(fileDir + filelist[i]));
+  const tempFileList = fs.readdirSync(fileDir);
+  const fileRE = /(txt|html)$/i;
+  let fileList = tempFileList.filter((e) => {
+    return fileRE.test(e);
+  });
+
+  console.log(`fileList: ${fileList}`);
+  console.log(`tempFileList: ${tempFileList}`);
+  for (let i = 0; i < fileList.length; i++) {
+    DocList.push(parseDoc(fileDir + fileList[i]));
   }
   return DocList;
 };
@@ -81,3 +88,5 @@ const readAllDoc = (fileDir) => {
 console.log(readAllDoc('../../test/'));
 
 //exports.parseDoc = parseDoc;
+
+exports.readAllDoc = readAllDoc;
