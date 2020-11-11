@@ -48,10 +48,17 @@ const stemString = (string) => {
  */
 const removeStopwords = (string) => {
   let hasil = [];
+  let count = 0
   let kata = string.split(' ');
+  for (let j=0;j<kata.length;j++){
+    let stopword = kata[j].split('.').join('')
+    if (!stopwordsID.includes(stopword)) {
+      count++;
+    }
+  }
   for (let i = 0; i < kata.length; i++) {
     let katabersih = kata[i].split('.').join('');
-    if (!stopwordsID.includes(katabersih)) {
+    if (!stopwordsID.includes(katabersih)|| count==0) {
       hasil.push(katabersih);
     }
   }
@@ -69,14 +76,16 @@ const toObj = (query) => {
   let obj = {};
 
   // Masukan kata-kata ke object
-  for (const i in stemmedQuery) {
-    let word = stemmedQuery[i];
+  query = query.split(' ');
+  for (const i in query) {
+    let word = query[i];
     // Kalo belom ada di obj jadi 1, kalo udh ada ditambah 1
     obj[word] = word in obj ? obj[word] + 1 : 1;
   }
 
   return obj;
 };
+
 
 /**
  * Fungsi untuk menge-sort similarity dari object-object dokumen pada suatu list
@@ -127,3 +136,12 @@ const cosineSim = (Q, D) => {
   let similarity = dotproduct / (mQ * mQ); // rumus cosine sim
   return similarity;
 };
+
+/**
+ * 
+ * 
+ */
+const toVector = (obj) =>{
+  let list = Object.values(obj);
+  return list;
+}
