@@ -69,28 +69,6 @@ const readAllDoc = (fileDir) => {
   return DocList;
 };
 
-/**
- * Menghitung cosine similarity dari query dan dokumen
- * Asumsi panjang vektor Q dan D sama
- * @param {vector} Q - vektor Query
- * @param {vector} D - vektor Dokumen
- * @returns {float} - similarity
- */
-const cosineSim = (Q, D) => {
-  let dotproduct = 0; // Q . D
-  let mQ = 0; // ||Q||
-  let mD = 0; // ||D||
-  for (i = 0; i < Q.length; i++) {
-    dotproduct += Q[i] * D[i];
-    mQ += Q[i] * Q[i];
-    mD += D[i] * D[i];
-  }
-  mQ = Math.sqrt(mQ);
-  mD = Math.sqrt(mD);
-  let similarity = dotproduct / (mQ * mQ); // rumus cosine sim
-  return similarity;
-};
-
 // var array1 = [1,0,0,1];
 // var array2 = [1,0,0,0];
 
