@@ -21,6 +21,8 @@ const serverConfig = {
 // Inisialisasi instance express baru
 const app = express();
 
+app.use(express.static(path.join(__dirname, '../frontend/')));
+
 /**
  * Routing untuk memberikan query search
  */
