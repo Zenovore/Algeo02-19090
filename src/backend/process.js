@@ -131,6 +131,20 @@ const sortSimilaritiesDsc = (arrObj) => {
 };
 
 /**
+ * Melakukan perkalian dot vektor dengan asumsi panjang array val v2 sama
+ * dengan panjang array val v1, yang digunakan adalah panjang array val v1.
+ * @param {object} v1 - vektor pertama yang ingin dikalikan
+ * @param {object} v2 - vektor kedua yang ingin dikalikan
+ * @returns {number} hasil perkalian dot v1 dan v2
+ */
+const countDotProd = (v1, v2) => {
+  let dot = 0;
+  for (let i = 0; i < v1.length; ++i) dot += v1[i] * v2[i];
+
+  return dot;
+};
+
+/**
  * Menghitung cosine similarity dari query dan dokumen
  * Asumsi panjang vektor Q dan D sama
  * @param {vector} Q - vektor Query
@@ -138,18 +152,19 @@ const sortSimilaritiesDsc = (arrObj) => {
  * @returns {float} - similarity
  */
 const cosineSim = (Q, D) => {
-  let dotproduct = 0; // Q . D
+  //let dotproduct = 0; // Q . D
+  const dotproduct = countDotProd(Q, D); // Q . D
   let mQ = 0; // ||Q||
   let mD = 0; // ||D||
+
   for (i = 0; i < Q.length; i++) {
-    dotproduct += Q[i] * D[i];
     mQ += Q[i] * Q[i];
     mD += D[i] * D[i];
   }
+
   mQ = Math.sqrt(mQ);
   mD = Math.sqrt(mD);
-  let similarity = dotproduct / (mQ * mQ); // rumus cosine sim
-  return similarity;
+  return dotproduct / (mQ * mD); // rumus cosine sim
 };
 
 /**
@@ -197,10 +212,12 @@ exports.mainProcess = (query, docs) => {
   docs.forEach((el) => {
     el.konten = cleanString(el.konten);
     el.vector = toVector(createDocQueryObj(el.konten, queryWordList));
-    el.similarity = cosineSim(queryVec, el.vector);
+    const cosSim = cosineSim(queryVec, el.vector);
+    el.similarity = isNaN(cosSim) ? 0 : cosSim;
   });
 
   sortSimilaritiesDsc(docs);
 
-  console.log(docs);
+  //console.log(docs);
+  return docs;
 };

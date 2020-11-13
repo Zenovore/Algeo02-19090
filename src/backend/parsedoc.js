@@ -16,10 +16,10 @@ const extractHTML = (val) => {
   const dom = new JSDOM(val);
   let content1 = '';
   dom.window.document.querySelectorAll(acceptedTags).forEach((el) => {
-    content1 += el.textContent;
+    content1 += el.textContent + ' ';
   });
 
-  return content1;
+  return content1.trimEnd();
 };
 
 /**
@@ -88,3 +88,4 @@ const readAllDoc = (fileDir) => {
 //exports.parseDoc = parseDoc;
 
 exports.readAllDoc = readAllDoc;
+exports.parseDoc = parseDoc;

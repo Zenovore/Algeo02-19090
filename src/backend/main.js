@@ -9,6 +9,7 @@ const path = require('path');
 const fs = require('fs');
 
 const proc = require('./process');
+const parsedoc = require('./parsedoc');
 
 const GFilesList = []; // List files objects
 
@@ -27,7 +28,7 @@ app.use(express.static(path.join(__dirname, '../frontend/')));
  * Routing untuk memberikan query search
  */
 app.get('/search', (req, res) => {
-  const query = req.query.q;
+  const query = req.query.q.toLowerCase();
 
   proc.mainProcess(query, GFilesList);
 
@@ -54,7 +55,7 @@ app.get('/', (req, res) => {
 
 const filterfile = function (req, file, cb) {
   // Accept txt or html only
-  if (!file.originalname.match(/\.(txt|html)$/i)) {
+  if (!file.originalname.match(/(txt|html)$/i)) {
     req.fileValidationError = 'Punten ka, file .txt atau html aja ya';
     return cb(new Error('Punten ka, file .txt atau html aja ya'), false);
   }
@@ -93,18 +94,22 @@ app.post('/upload', (req, res) => {
       return res.send(req.fileValidationError);
     } else if (req.files) {
       // File berhasil diterima
-      const fileRE = /(text|html)$/i;
+      const fileDir = './uploads';
       console.log(`Received ${req.files.length} files`);
       console.log(req.files, '\n');
 
-      // Kalo filenya plaintext atau HTML, masukin ke list
-      if (fileRE.test(req.files.filename)) {
-        GFilesList.push(parseDoc(fileDir + req.files.filename));
-      }
+      // masukin file ke list
 
-      return res.send(
-        'Dah berhasil ya' + '\n<hr/><a href="./">Upload more files</a>'
-      );
+      req.files.forEach((f) => {
+        GFilesList.push(parsedoc.parseDoc(path.join(fileDir, f.filename)));
+      });
+
+      //console.log(GFilesList);
+
+      res.redirect('/');
+      //return res.send(
+      //'Dah berhasil ya' + '\n<hr/><a href="/">Upload more files</a>'
+      //);
     } else if (err instanceof multer.MulterError) {
       return res.send(err);
     } else if (err) {
