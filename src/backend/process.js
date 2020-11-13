@@ -50,7 +50,7 @@ const removeStopwords = (string) => {
   let count = 0;
   let kata = string.split(' ');
 
-  for (let j = 0; j < kata.length; j++) {
+  for (let j = 0; j < kata.length && !count; j++) {
     let stopword = kata[j].split('.').join('');
     if (!stopwordsID.includes(stopword)) {
       count++;
@@ -218,6 +218,6 @@ exports.mainProcess = (query, docs) => {
 
   sortSimilaritiesDsc(docs);
 
-  //console.log(docs);
+  console.log(docs);
   return docs;
 };
