@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta charset="UTF-8">
     <meta name="description" content="Tubes 2 Algeo" />
     <meta name="keywords" content="search, tubes, algeo" />
     <meta name="author" content="^_^)b" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SearchIt!</title>
     <link rel="stylesheet" href="style.css" />
+    <script src="https://unpkg.com/vue@next"></script>
+    <!--<script src="../../node_modules/vue/dist/vue.global.js"></script>-->
     <!--<link rel="icon" href=" "> -->
   </head>
   <body>
@@ -45,11 +48,14 @@
     </div>
 
     <div class="table">
-      <p>TEST ini buat nampilin tabel</p>
+      <p>{{ tab }}</p>
     </div>
 
     <div class="search-result">
-      <p>TEST ini buat nampilin hasil search</p>
+      <H3>{{ title }}</H3>
+      <p>{{ sentence }}</p>
+      <p>{{ sim }}</p>
     </div>
+    <script src="./index.js"></script>
   </body>
 </html>

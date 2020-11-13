@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/Zenovore/Algeo02-19090#readme",
   "dependencies": {
+    "@vue/cli": "^4.5.8",
     "express": "^4.17.1",
     "jsdoc": "^3.6.6",
     "jsdom": "^16.4.0",
