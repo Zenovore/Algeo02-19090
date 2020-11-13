@@ -191,12 +191,14 @@ exports.testProcess = (query) => {
   docs.forEach((el) => {
     el.konten = cleanString(el.konten);
     el.vector = toVector(createDocQueryObj(el.konten, queryWordList));
-    el.similarity = cosineSim(queryVec, el.vector);
+    const cosSim = cosineSim(queryVec, el.vector);
+    el.similarity = isNaN(cosSim) ? 0 : cosSim;
   });
 
   sortSimilaritiesDsc(docs);
 
   console.log(docs);
+  return docs;
 };
 
 /**
