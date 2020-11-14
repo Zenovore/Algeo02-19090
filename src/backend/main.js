@@ -12,7 +12,7 @@ const fs = require('fs');
 const proc = require('./process');
 const parsedoc = require('./parsedoc');
 
-const GFilesList = []; // List files objects
+let GFilesList = []; // List files objects
 
 // konfigurasi server express baru
 const serverConfig = {
@@ -42,6 +42,7 @@ app.get('/search', (req, res) => {
  * Routing untuk menguji searching
  */
 app.get('/test', (req, res) => {
+  GFilesList = [];
   const query = req.query.q;
 
   const hasil = proc.testProcess(query);
@@ -107,8 +108,6 @@ app.post('/upload', (req, res) => {
       req.files.forEach((f) => {
         GFilesList.push(parsedoc.parseDoc(path.join(fileDir, f.filename)));
       });
-
-      //console.log(GFilesList);
 
       return res.redirect('/');
       //return res.send(

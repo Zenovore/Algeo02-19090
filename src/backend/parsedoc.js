@@ -4,7 +4,7 @@
 let fs = require('fs');
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
-let DocList = [];
+let GDocList = [];
 
 /**
  * Extract konten (body) dari HTML
@@ -62,6 +62,7 @@ const parseDoc = (filePath) => {
  * @returns {object[]} - list berisi object tiap file dokumen
  */
 const readAllDoc = (fileDir) => {
+  GDocList = [];
   const tempFileList = fs.readdirSync(fileDir);
   const fileRE = /(txt|html)$/i;
   let fileList = tempFileList.filter((e) => {
@@ -69,9 +70,9 @@ const readAllDoc = (fileDir) => {
   });
 
   for (let i = 0; i < fileList.length; i++) {
-    DocList.push(parseDoc(fileDir + fileList[i]));
+    GDocList.push(parseDoc(fileDir + fileList[i]));
   }
-  return DocList;
+  return GDocList;
 };
 
 // var array1 = [1,0,0,1];
