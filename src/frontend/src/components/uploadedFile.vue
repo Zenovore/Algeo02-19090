@@ -1,10 +1,6 @@
 <template>
   <form @submit.prevent="sendFile" enctype="multipart/form-data">
-  <div v-if="message"
-    :class="`message ${error ? 'is-danger' : 'is-success'}`"
-  >
-    <div class="message-body">{{message}}</div>
-  </div>
+
     <div class="field">
       <div class="file is-boxed is-warning">
         <label class ="file-label">
@@ -28,6 +24,11 @@
         </label>
       </div>
     </div>
+      <div v-if="message"
+    :class="`message ${error ? 'is-danger' : 'is-success'}`"
+  >
+    <div class="message-body">{{message}}</div>
+  </div>
     <div class="field">
       <div v-for="(file,index) in files" :key="index" class="level"
         :class="`level ${file.invalidMessage && 'has-text-danger'}`" >
@@ -111,6 +112,19 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+    .field {
+        text-align: center;
+        align-content: center;
+    }
+    .file{
+        justify-content: center;
+    }
+    .file-icon{
+        margin-right: 0%;
+    }
+    .button{
+        padding-right: 5em;
+        padding-left: 5em;
+    }
 </style>
