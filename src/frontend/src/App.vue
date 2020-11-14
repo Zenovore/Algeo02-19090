@@ -11,7 +11,7 @@
 
 <script>
 import search from './components/searchResult.vue'
-import uploadedFile from './uploadedFile.vue'
+import uploadedFile from './components/uploadedFile.vue'
 
 export default {
   name: 'App',

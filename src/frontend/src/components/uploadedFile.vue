@@ -81,7 +81,7 @@ export default {
             ]
         },
         validate(file) {
-            const MAX_SIZE = 500000;
+            const MAX_SIZE = 1000000;
             if (file.size > MAX_SIZE){
                 return `Max size: ${MAX_SIZE/1000}Kb`;
             }
