@@ -30,9 +30,10 @@ app.use(express.static(path.join(__dirname, '../frontend/')));
 app.get('/search', (req, res) => {
   const query = req.query.q.toLowerCase();
 
-  proc.mainProcess(query, GFilesList);
+  const hasil = proc.mainProcess(query, GFilesList);
 
-  res.send(query);
+  //res.send(query);
+  return res.json(hasil);
 });
 
 /**
@@ -41,9 +42,9 @@ app.get('/search', (req, res) => {
 app.get('/test', (req, res) => {
   const query = req.query.q;
 
-  proc.testProcess(query);
+  const hasil = proc.testProcess(query);
 
-  res.send(query);
+  return res.json(hasil);
 });
 
 /**
@@ -106,13 +107,15 @@ app.post('/upload', (req, res) => {
 
       //console.log(GFilesList);
 
-      res.redirect('/');
+      return res.redirect('/');
       //return res.send(
       //'Dah berhasil ya' + '\n<hr/><a href="/">Upload more files</a>'
       //);
     } else if (err instanceof multer.MulterError) {
+      res.statusCode(500);
       return res.send(err);
     } else if (err) {
+      res.statusCode(500);
       return res.send(err);
     }
   });
