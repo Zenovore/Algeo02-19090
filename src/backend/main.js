@@ -7,6 +7,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+//const cors = require('cors');
 
 const proc = require('./process');
 const parsedoc = require('./parsedoc');
@@ -15,7 +16,7 @@ const GFilesList = []; // List files objects
 
 // konfigurasi server express baru
 const serverConfig = {
-  PORT: process.env.TUBES_PORT || '3344',
+  PORT: process.env.TUBES_PORT || '42069',
   IP: process.env.TUBES_IP || '127.0.0.1',
 };
 
@@ -30,9 +31,11 @@ app.use(express.static(path.join(__dirname, '../frontend/')));
 app.get('/search', (req, res) => {
   const query = req.query.q.toLowerCase();
 
-  proc.mainProcess(query, GFilesList);
+  const hasil = proc.mainProcess(query, GFilesList);
 
-  res.send(query);
+  res.set('Access-Control-Allow-Origin', '*');
+  //res.send(query);
+  return res.json(hasil);
 });
 
 /**
@@ -41,9 +44,10 @@ app.get('/search', (req, res) => {
 app.get('/test', (req, res) => {
   const query = req.query.q;
 
-  proc.testProcess(query);
+  const hasil = proc.testProcess(query);
 
-  res.send(query);
+  res.set('Access-Control-Allow-Origin', '*');
+  return res.json(hasil);
 });
 
 /**
@@ -106,13 +110,15 @@ app.post('/upload', (req, res) => {
 
       //console.log(GFilesList);
 
-      res.redirect('/');
+      return res.redirect('/');
       //return res.send(
       //'Dah berhasil ya' + '\n<hr/><a href="/">Upload more files</a>'
       //);
     } else if (err instanceof multer.MulterError) {
+      res.statusCode(500);
       return res.send(err);
     } else if (err) {
+      res.statusCode(500);
       return res.send(err);
     }
   });
