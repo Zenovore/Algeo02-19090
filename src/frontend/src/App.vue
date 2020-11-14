@@ -1,17 +1,25 @@
 <template>
-  <!--<img alt="Vue logo" src="./assets/logo.png">-->
-  <search/>
+  <div class="section">
+    <div class="container">
+
+      <search />
+      <uploadedFile />
+
+    </div>
+  </div>
 </template>
 
 <script>
-import search from './components/search.vue';
+import search from './components/searchResult.vue'
+import uploadedFile from './components/uploadedFile.vue'
 
 export default {
   name: 'App',
   components: {
-    search
-  },
-};
+    search,
+    uploadedFile
+  }
+}
 </script>
 
 <style>

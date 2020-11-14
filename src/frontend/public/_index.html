@@ -1,17 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta name="description" content="Tubes 2 Algeo" />
+    <meta name="keywords" content="search, tubes, algeo" />
+    <meta name="author" content="^_^)b" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <link rel="stylesheet" href="style.css" />
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <!--<script src="../../node_modules/vue/dist/vue.global.js"></script>-->
+    <!--<link rel="icon" href=" "> -->
   </head>
   <body>
-    <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
+    <!-- Navbar -->
+    <div class="topbar" style="letter-spacing: 4px">
+      <a href="#home" class="topbar-item topbar-button">Search It! ^_^)b</a>
+      <!-- Right-sided navbar links. Hide them on small screens -->
+      <div class="topbar-right">
+        <a href="#search" class="topbar-item topbar-button">Search</a>
+        <a href="#about" class="topbar-item topbar-button">About</a>
+      </div>
+    </div>
+
+    <div class="content">
+      <!-- <img class="content_background" src="img/background.jpg" /> -->
+      <div class="content-title">Search It!</div>
+      <div class="search-bar">
+        <form action="/search" method="get">
+          <input type="text" placeholder="Type query here..." id="q" name="q" />
+          <!-- Kalo bisa pake nerd font aja biar jadi ikon search itu -->
+          <input type="submit"><i class="nf nf-oct-search"></i></button>
+        </form>
+      </div>
+      <div class="content-upload">
+        <h1 style="color: white">Upload here</h1>
+        <form method="POST" action="/upload" enctype="multipart/form-data">
+          <div>
+            <label>Select multiple file:</label>
+            <input type="file" name="files" multiple />
+          </div>
+          <div>
+            <button type="submit">Upload</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="app"</div>
   </body>
 </html>

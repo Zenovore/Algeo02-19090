@@ -55,7 +55,7 @@ app.get('/test', (req, res) => {
  * Routing ke start-page
  */
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/index.html'));
+  res.sendFile(path.join(__dirname, '../frontend/public/index.html'));
 });
 
 const filterfile = function (req, file, cb) {

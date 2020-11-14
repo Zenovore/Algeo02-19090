@@ -1,0 +1,146 @@
+{ Definisi ADT Lingkaran }
+
+Use Point
+
+TYPE Lingkaran :< center : Point, {Titik Pusat}
+                radius : real {Radius Lingkaran} >
+
+{KONSTRUKTOR}
+function BuatLingkaran (A:Point, r:real) -> Circle
+{Membentuk sebuah lingkaran dengan titik pusat Point A dengan radius r}
+
+
+
+{SELEKTOR}
+function getTitikPusat (L: Circle) -> Point
+{memberikan titikpusat dari lingkaran L}
+
+function getRadius (L:Circle) -> real
+{Memberikan radius dari lingkaran L}
+
+{SET NILAI KOMPONEN}
+procedure SetTitikPusat (input:Point,output : Circle)
+{Memberi input suatu titik dan memberikan lingkaran dengan titik pusat yang baru}
+
+procedure SetRadius (input:Real,output :Circle)
+{Memberi input suatu bilangan real dan membuat lingkaran dengan radius yang baru}
+
+procedure BacaLingkaran (output L:Circle)
+{Menerima 1 point dan sebuah integer untuk membuat lingkaran}
+
+
+
+{NOMOR 2}
+use Point
+use Lingkaran
+{Kamus}
+constant Pi : Real = 3.14
+
+function IsIntersect (L1: Lingkaran, L2: Lingkaran) → boolean
+    if Jarak(getTitikPusat(L1),getJarakTitikPusat(L2)) < (getRadius(L1)+get(getRadius(L2))) then
+        -> True
+    else 
+        -> False
+
+
+function HitungLuas (L: Lingkaran) → real
+    {Kamus Lokal}
+    Luas : real
+    {Algoritma}
+    Luas <- Pi * getRadius(L) * getRadius(L)
+    -> Luas
+
+
+
+
+{NOMOR 3}
+Use Point
+Use Lingkaran
+    BuatLingkaran(L1)
+    BuatLingkaran(L2)
+    output (Jarak(getJarakTitikPusat(L1),getJarakTitikPusat(L2)))
+    output(HitungLuas(L1))
+    output(HitungLuas(L2))
+    IsIntersect(L1,L2)
+
+
+
+{NOMOR 4}
+procedure InsertAt(input/output L: List, input idx: IdxType, input value: ElType)
+    if idx = FirstIdx then
+        InsertFirst(L,idx)
+    else 
+        InsertLast(L,idx)
+    {Program belum bisa menggeser pa/bu, baru bisa insert di awal dan di akhir, dengan menggunkan
+    procedure InsertLast dan InsertFirst}
+
+
+
+function IsFull(L: List) → boolean
+    if Neff = NMax
+        ->True
+    else 
+        -> False
+
+
+
+{NOMOR 5}
+    {KAMUS LOKAL}
+    i,j,min : int
+    i traversal [FirstIdx.....Neff-1]
+        min <- i
+        j traversal[i+1...Neff-1]
+            if (Elmt(L,min) = Elmt(L,j)) then 
+                DeleteAt(L,j)
+            
+
+
+    While i<=(Neff-1) and cek do
+        if (Get(T,a)) = Get(T,i)) then
+            besar <- True
+        else
+            besar <- False
+            cek <- False
+        a <- a+1
+        i <- i+1
+    cek <- True
+    a <- FirstIdx
+    i<- FirstIdx +1
+
+
+
+
+
+{NOMOR 6}
+    {Kamus lokal}
+    cek :boolean
+    i,a : integer
+    cek <- true
+    a <- FirstIdx
+    i <- FirstIdx + 1
+    While i<=(Neff-1) and cek do
+        if (Get(L,a)) <= Get(L,i)) then
+            besar <- True
+        else
+            besar <- False
+            cek <- False
+        a <- a+1
+        i <- i+1
+    cek <- True
+    a <- FirstIdx
+    i<- FirstIdx +1
+
+    While i<=(Neff-1) and cek do
+        if (Get(L,a)) >= Get(L,i)) then
+            kecil <- True
+        else
+            kecil <- False
+            cek <- False
+        a <- a+1
+        i <- i+1
+    if besar or kecil then
+        -> true
+    else
+        -> false
+
+
