@@ -10,7 +10,7 @@
   <div v-if="isSearched">
     <div class="search-result" v-for="doc in docs" v-bind:key="doc">
       <div v-if="doc.similarity != 0">
-        <a class="doc-title" v-bind:href="`../../public/uploads/${doc.fileName}/`">{{ doc.fileName }}</a>
+        <a class="doc-title"  target="_blank" v-bind:href="`/uploads/${doc.fileName}`">{{ doc.fileName }}</a>
         <div class="doc-word-length"> {{ doc.konten.length }} </div>
         <div class="doc-similarity">{{ `${doc.similarity.toPrecision(4) * 100}%` }}</div>
         <div class="doc-first-sentence">{{ doc.firstSentence }}</div>
