@@ -1,17 +1,17 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
+  <!--<img alt="Vue logo" src="./assets/logo.png">-->
   <search/>
 </template>
 
 <script>
-import search from './components/searchResult.vue'
+import search from './components/search.vue';
 
 export default {
   name: 'App',
   components: {
     search
-  }
-}
+  },
+};
 </script>
 
 <style>

@@ -7,6 +7,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+//const cors = require('cors');
 
 const proc = require('./process');
 const parsedoc = require('./parsedoc');
@@ -15,7 +16,7 @@ const GFilesList = []; // List files objects
 
 // konfigurasi server express baru
 const serverConfig = {
-  PORT: process.env.TUBES_PORT || '8080',
+  PORT: process.env.TUBES_PORT || '42069',
   IP: process.env.TUBES_IP || '127.0.0.1',
 };
 
@@ -32,6 +33,7 @@ app.get('/search', (req, res) => {
 
   const hasil = proc.mainProcess(query, GFilesList);
 
+  res.set('Access-Control-Allow-Origin', '*');
   //res.send(query);
   return res.json(hasil);
 });
@@ -44,6 +46,7 @@ app.get('/test', (req, res) => {
 
   const hasil = proc.testProcess(query);
 
+  res.set('Access-Control-Allow-Origin', '*');
   return res.json(hasil);
 });
 
