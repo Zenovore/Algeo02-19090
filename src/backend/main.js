@@ -12,6 +12,8 @@ const fs = require('fs');
 const proc = require('./process');
 const parsedoc = require('./parsedoc');
 
+const GFileDir = './src/frontend/public/uploads/';
+
 let GFilesList = []; // List files objects
 
 // konfigurasi server express baru
@@ -58,7 +60,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/public/index.html'));
 });
 
-const filterfile = function (req, file, cb) {
+const filterfile = function(req, file, cb) {
   // Accept txt or html only
   if (!file.originalname.match(/(txt|html)$/i)) {
     req.fileValidationError = 'Punten ka, file .txt atau html aja ya';
@@ -71,8 +73,8 @@ const filterfile = function (req, file, cb) {
  * Nyiapin storage untuk multer
  */
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    let dir = './uploads';
+  destination: function(req, file, cb) {
+    let dir = GFileDir;
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir);
     }
@@ -80,7 +82,7 @@ const storage = multer.diskStorage({
   },
 
   // By default, multer removes file extensions so let's add them back
-  filename: function (req, file, cb) {
+  filename: function(req, file, cb) {
     cb(null, file.originalname);
   },
 });
@@ -99,7 +101,7 @@ app.post('/upload', (req, res) => {
       return res.send(req.fileValidationError);
     } else if (req.files) {
       // File berhasil diterima
-      const fileDir = './uploads';
+      const fileDir = GFileDir;
       console.log(`Received ${req.files.length} files`);
       console.log(req.files, '\n');
 
@@ -109,10 +111,10 @@ app.post('/upload', (req, res) => {
         GFilesList.push(parsedoc.parseDoc(path.join(fileDir, f.filename)));
       });
 
-      return res.redirect('/');
-      //return res.send(
-      //'Dah berhasil ya' + '\n<hr/><a href="/">Upload more files</a>'
-      //);
+      //return res.redirect('/');
+      return res.send(
+        'Dah berhasil ya' + '\n<hr/><a href="/">Upload more files</a>'
+      );
     } else if (err instanceof multer.MulterError) {
       res.statusCode(500);
       return res.send(err);

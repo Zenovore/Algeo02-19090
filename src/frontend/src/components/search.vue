@@ -8,11 +8,13 @@
   </div>
 
   <div v-if="isSearched">
-    <div class="search-result" v-for="doc in docs" :key="doc">
-      <div class="doc-title">{{ doc.fileName }}</div>
-      <div class="doc-word-length"> {{ doc.konten.length }} </div>
-      <div class="doc-similarity">{{ `${doc.similarity.toPrecision(4) * 100}%` }}</div>
-      <div class="doc-first-sentence">{{ doc.firstSentence }}</div>
+    <div class="search-result" v-for="doc in docs" v-bind:key="doc">
+      <div v-if="doc.similarity != 0">
+        <a class="doc-title" v-bind:href="`../../public/uploads/${doc.fileName}/`">{{ doc.fileName }}</a>
+        <div class="doc-word-length"> {{ doc.konten.length }} </div>
+        <div class="doc-similarity">{{ `${doc.similarity.toPrecision(4) * 100}%` }}</div>
+        <div class="doc-first-sentence">{{ doc.firstSentence }}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -32,7 +34,7 @@ export default {
     searchQuery() {
       const RE = /\s/g;
       return this.searchStr.replace(RE, '+');
-    }
+    },
   },
 
   methods: {
@@ -48,7 +50,7 @@ export default {
 
       const headers = { 'method': 'GET' }
 
-      axios.get(`http://localhost:42069/test?q=${this.searchQuery}`, { headers })
+      axios.get(`http://localhost:42069/search?q=${this.searchQuery}`, { headers })
         .then(response => {
           this.docs = response.data;
           this.isSearched = true;

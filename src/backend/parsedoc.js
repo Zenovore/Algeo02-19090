@@ -32,6 +32,7 @@ const createDoc = (name, konten) => {
   return {
     fileName: name,
     konten: konten,
+    kontenOriginal: konten,
   };
 };
 

@@ -16,7 +16,6 @@ const stopwords = require('./stopwords');
 const parsedoc = require('./parsedoc');
 
 const stopwordsID = stopwords.stopwordsID;
-const stopwordsEN = stopwords.stopwordsEN;
 
 /**
  * Fungsi untuk membersikan string dari punctuation dan merapihkan kata-kata
@@ -50,9 +49,11 @@ const removeStopwords = (string) => {
   let count = 0;
   let kata = string.split(' ');
 
+  // Ngitung kata bukan stopword (bersih)
   for (let j = 0; j < kata.length && !count; j++) {
     let stopword = kata[j].split('.').join('');
     if (!stopwordsID.includes(stopword)) {
+      // Kata tidak ada di stopword
       count++;
     }
   }
@@ -202,6 +203,7 @@ const cosineSim = (Q, D) => {
 
   mQ = Math.sqrt(mQ);
   mD = Math.sqrt(mD);
+  //console.log({ dotproduct: dotproduct, mQ: mQ, mD: mD });
   return dotproduct / (mQ * mD); // rumus cosine sim
 };
 
@@ -252,7 +254,7 @@ exports.mainProcess = (query, docs) => {
   const queryWordList = query.split(' ');
 
   docs.forEach((el) => {
-    const originalKonten = el.konten;
+    const originalKonten = el.kontenOriginal;
     el.konten = cleanString(originalKonten);
     el.vector = toVector(createDocQueryObj(el.konten, queryWordList));
     const cosSim = cosineSim(queryVec, el.vector);

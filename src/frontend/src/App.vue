@@ -2,15 +2,15 @@
   <div class="section">
     <div class="container">
 
-      <search />
       <uploadedFile />
+      <search />
 
     </div>
   </div>
 </template>
 
 <script>
-import search from './components/searchResult.vue'
+import search from './components/search.vue'
 import uploadedFile from './components/uploadedFile.vue'
 
 export default {
