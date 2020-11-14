@@ -15,7 +15,7 @@ const GFilesList = []; // List files objects
 
 // konfigurasi server express baru
 const serverConfig = {
-  PORT: process.env.TUBES_PORT || '8080',
+  PORT: process.env.TUBES_PORT || '3344',
   IP: process.env.TUBES_IP || '127.0.0.1',
 };
 
@@ -50,7 +50,7 @@ app.get('/test', (req, res) => {
  * Routing ke start-page
  */
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/index.html'));
+  res.sendFile(path.join(__dirname, '../frontend/public/index.html'));
 });
 
 const filterfile = function (req, file, cb) {
