@@ -80,6 +80,20 @@ const cleanString = (str) => {
 };
 
 /**
+ * Fungsi untuk menghapus escape character: \n, \t, \r, serta whitespace (\s)
+ * berlebihan.
+ * @params {String} str - string yang ingin dibersihkan
+ * @Returns {String} str yang sudah dibersihkan
+ */
+const removeEscapeChr = (str) => {
+  const escapeChrRE = /(\n|\r|\t)/g;
+  const whitespaceRE = /\s\s+/g;
+  str = str.replace(escapeChrRE, ' ');
+  str = str.replace(whitespaceRE, ' ');
+  return str;
+};
+
+/**
  * Fungsi untuk mengubah menjadi javascript object.
  * Javascript object memiliki kata dalam string sebagai key dan
  * jumlah kemunculan kata dalam string sebaga value.
@@ -128,6 +142,30 @@ const createDocQueryObj = (docContent, queryWordList) => {
  */
 const sortSimilaritiesDsc = (arrObj) => {
   arrObj.sort((a, b) => b.similarity - a.similarity);
+};
+
+/**
+ * Fungsi untuk membuat kalimat pertama dari suatu string
+ * @param {String} str - string yang ingin dibuat jadi kalimat pertama
+ * @Returns String kalimat pertama dari str
+ */
+const makeFirstSentence = (str) => {
+  const pemisah = '.';
+  const charCount = 100;
+
+  let existsPeriod = false;
+  let i = 0;
+  for (; i < str.length && !existsPeriod; ++i) {
+    const chr = str[i];
+    if (chr === pemisah) {
+      existsPeriod = true;
+    }
+  }
+
+  if (str.length <= charCount && !existsPeriod) return str;
+  else if (!existsPeriod || i > charCount)
+    return `${str.slice(0, charCount)}...`;
+  else return str.slice(0, i);
 };
 
 /**
@@ -189,10 +227,12 @@ exports.testProcess = (query) => {
   const docs = parsedoc.readAllDoc(filePath);
 
   docs.forEach((el) => {
-    el.konten = cleanString(el.konten);
+    const originalKonten = el.konten;
+    el.konten = cleanString(originalKonten);
     el.vector = toVector(createDocQueryObj(el.konten, queryWordList));
     const cosSim = cosineSim(queryVec, el.vector);
     el.similarity = isNaN(cosSim) ? 0 : cosSim;
+    el.firstSentence = makeFirstSentence(removeEscapeChr(originalKonten));
   });
 
   sortSimilaritiesDsc(docs);
@@ -212,10 +252,12 @@ exports.mainProcess = (query, docs) => {
   const queryWordList = query.split(' ');
 
   docs.forEach((el) => {
-    el.konten = cleanString(el.konten);
+    const originalKonten = el.konten;
+    el.konten = cleanString(originalKonten);
     el.vector = toVector(createDocQueryObj(el.konten, queryWordList));
     const cosSim = cosineSim(queryVec, el.vector);
     el.similarity = isNaN(cosSim) ? 0 : cosSim;
+    el.firstSentence = makeFirstSentence(removeEscapeChr(originalKonten));
   });
 
   sortSimilaritiesDsc(docs);
