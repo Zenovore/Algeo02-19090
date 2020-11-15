@@ -7,10 +7,11 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-//const cors = require('cors');
+const bp = require('body-parser');
 
 const proc = require('./process');
 const parsedoc = require('./parsedoc');
+const scraper = require('./scraper');
 
 const GFileDir = './src/frontend/public/uploads/';
 
@@ -26,6 +27,8 @@ const serverConfig = {
 const app = express();
 
 app.use(express.static(path.join(__dirname, '../frontend/')));
+app.use(bp.urlencoded({ extended: false }));
+app.use(bp.json());
 
 /**
  * Routing untuk memberikan query search
@@ -53,6 +56,18 @@ app.get('/test', (req, res) => {
   return res.json(hasil);
 });
 
+app.post('/scraper', async (req, res) => {
+  // hayolo tiba2 angkatan 19 dipanggil
+  const result = await scraper.extractHTML(
+    req.body.url,
+    req.body.filter,
+    req.body.filterMethod
+  );
+
+  console.log(result);
+  res.send(result);
+});
+
 /**
  * Routing ke start-page
  */
@@ -60,7 +75,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/public/index.html'));
 });
 
-const filterfile = function(req, file, cb) {
+const filterfile = function (req, file, cb) {
   // Accept txt or html only
   if (!file.originalname.match(/(txt|html)$/i)) {
     req.fileValidationError = 'Punten ka, file .txt atau html aja ya';
@@ -73,7 +88,7 @@ const filterfile = function(req, file, cb) {
  * Nyiapin storage untuk multer
  */
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
+  destination: function (req, file, cb) {
     let dir = GFileDir;
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir);
@@ -82,15 +97,14 @@ const storage = multer.diskStorage({
   },
 
   // By default, multer removes file extensions so let's add them back
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
     cb(null, file.originalname);
   },
 });
 
 /**
  * Routing untuk nerima upload
- * TODO: Cek bisa ga tiap abis upload file-nya lgsg diproses lalu
- * ditambah ke list */
+ */
 let upload = multer({ storage: storage, fileFilter: filterfile }).array(
   'files',
   15

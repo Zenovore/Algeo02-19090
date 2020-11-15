@@ -33,7 +33,7 @@ export default {
       searchStr: '',
       isSearched: false,
       docs: [],
-      qW: [],
+      queryResult: [],
     };
   },
 
@@ -59,7 +59,7 @@ export default {
         .then(response => {
           const searchResult = response.data;
           this.docs = searchResult.docs;
-          this.qW = searchResult.qW;
+          this.queryResult = searchResult.query;
           this.isSearched = true;
         })
         .catch(err => {
