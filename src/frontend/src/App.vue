@@ -37,7 +37,7 @@ export default {
     };
   },
 
-  method: {
+  methods: {
     showSearch() {
       this.search = true; this.scraper = false; this.about = false; this.uploadedFile = true;
     },
