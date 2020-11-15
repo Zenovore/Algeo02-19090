@@ -2,9 +2,13 @@
   <div class="section">
     <div class="container">
       <h1 style = " font-size: 100%;">Search It</h1>
-      <uploadedFile />
-
-      <search />
+      <button @click="showSearch" class="button is-info">Search</button>
+      <button @click="showScraper" class="button is-info">Webscrape</button>
+      <button @click="showAbout" class="button is-info">Perihal</button>
+      <uploadedFile v-if="uploadedFile"/>
+      <search v-if="search"/>
+      <webScrape v-if="scraper"/>
+      <aboutUs v-if="about"/>
 
     </div>
   </div>
@@ -27,6 +31,7 @@ export default {
   data() {
     return {
       search: true,
+      uploadedFile:true,
       scraper: false,
       about: false,
     };
@@ -34,13 +39,13 @@ export default {
 
   method: {
     showSearch() {
-      this.search = true; this.scraper = false; this.about = false;
+      this.search = true; this.scraper = false; this.about = false; this.uploadedFile = true;
     },
     showAbout() {
-      this.search = false; this.scraper = false; this.about = true;
+      this.search = false; this.scraper = false; this.about = true; this.uploadedFile = false;
     },
     showScraper() {
-      this.search = false; this.scraper = true; this.about = false;
+      this.search = false; this.scraper = true; this.about = false; this.uploadedFile = false;
     }
   }
 }
