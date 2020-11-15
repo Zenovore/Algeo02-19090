@@ -3,6 +3,7 @@
 // import module
 let fs = require('fs');
 const jsdom = require('jsdom');
+const proc = require('./process');
 const { JSDOM } = jsdom;
 let GDocList = [];
 
@@ -71,7 +72,8 @@ const readAllDoc = (fileDir) => {
   });
 
   for (let i = 0; i < fileList.length; i++) {
-    GDocList.push(parseDoc(fileDir + fileList[i]));
+    const parsed = parseDoc(fileDir + fileList[i]);
+    if (!proc.containsFile(GDocList, parsed)) GDocList.push(parsed);
   }
   return GDocList;
 };

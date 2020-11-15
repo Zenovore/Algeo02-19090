@@ -208,11 +208,27 @@ const cosineSim = (Q, D) => {
 };
 
 /**
- * TODO: comments
+ * Fungsi untuk mengubah suatu object menjadi vektornya berdasarkan
+ * @param {Object} obj - object yang ingin diubah menjadi vektor
+ * @returns vektor dari object
+ *
+ * @example toVector({'ekonomi': 1, 'korupsi': 2}) === [1, 2]
  */
 const toVector = (obj) => {
   let list = Object.values(obj);
   return list;
+};
+
+exports.containsFile = (list, obj) => {
+  for (let i = 0; i < list.length; ++i) {
+    const el = list[i];
+    console.log({ elfileName: el.fileName, objfileName: obj.fileName });
+    if (el.fileName === obj.fileName) {
+      return true;
+    }
+  }
+
+  return false;
 };
 
 /* ========== MAIN =========== */
@@ -239,7 +255,7 @@ exports.testProcess = (query) => {
 
   sortSimilaritiesDsc(docs);
 
-  console.log(docs);
+  //console.log(docs);
   return docs;
 };
 

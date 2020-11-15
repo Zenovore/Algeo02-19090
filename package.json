@@ -3,14 +3,9 @@
   "version": "1.0.0",
   "description": "Mesin pencarian untuk tugas besar IF2123 tahun 20/21",
   "main": "src/backend/main.js",
-  "directories": {
-    "doc": "docs",
-    "test": "test"
-  },
   "scripts": {
     "test": "node src/backend/test.js",
-    "start": "node src/backend/main.js",
-    "doc": "node_modules/.bin/jsdoc -d docs src/backend/*.js"
+    "start": "node src/backend/main.js"
   },
   "repository": {
     "type": "git",
@@ -24,9 +19,7 @@
   "homepage": "https://github.com/Zenovore/Algeo02-19090#readme",
   "dependencies": {
     "@vue/cli": "^4.5.8",
-    "cors": "^2.8.5",
     "express": "^4.17.1",
-    "jsdoc": "^3.6.6",
     "jsdom": "^16.4.0",
     "multer": "^1.4.2",
     "sastrawijs": "^1.0.3"

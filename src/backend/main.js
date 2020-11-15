@@ -44,7 +44,7 @@ app.get('/search', (req, res) => {
  * Routing untuk menguji searching
  */
 app.get('/test', (req, res) => {
-  GFilesList = [];
+  //GFilesList = [];
   const query = req.query.q;
 
   const hasil = proc.testProcess(query);
@@ -108,7 +108,8 @@ app.post('/upload', (req, res) => {
       // masukin file ke list
 
       req.files.forEach((f) => {
-        GFilesList.push(parsedoc.parseDoc(path.join(fileDir, f.filename)));
+        const parsed = parsedoc.parseDoc(path.join(fileDir, f.filename));
+        if (!proc.containsFile(GFilesList, parsed)) GFilesList.push(parsed);
       });
 
       //return res.redirect('/');

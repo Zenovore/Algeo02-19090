@@ -35,8 +35,18 @@ vektor query, semakin relevan dokumen tersebut dengan query. Kesamaan tersebut
 dapat diukur dengan cosine similarity
 
 ## Dependencies<a href="dependencies"></a>
-* Express.js
-* Sastrawijs
+* Node.js
+    * Express.js
+    * Sastrawijs
+    * jsdom
+    * multer
+    * vue-cli
+    * vue
+    * axios
+    * eslint
+    * esling-plugin-vue
+    * core-js
+    * bulma
 
 ## Screenshots<a href="screenshots"></a>
 ![Example screenshot](./img/screenshot.png)
@@ -50,7 +60,14 @@ dapat diukur dengan cosine similarity
 1. Buka terminal
 1. Lakukan `git clone git@github.com:zenovore/Algeo02-19090` atau `git clone
    https://github.com/zenovore/Algeo02-19090`
+1. Pindah ke direktori *project* ini
 1. Jalankan `npm install`
+1. Jalankan `npm start`
+1. Buka terminal baru lalu pindah ke direktori *project* ini
+1. Install `serve` dengan `npm install -g serve`
+1. lakukan `cd src/frontend`
+1. lakukan `serve -s dist`
+1. Buka `http://localhost:5000/` di peramban
 
 ## Code Examples
 Show examples of usage:
