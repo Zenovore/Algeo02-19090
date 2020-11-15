@@ -1,7 +1,7 @@
 <template>
   <div class="section">
     <div class="container">
-      <h1>Search It</h1>
+      <h1 style = " font-size: 100%;">Search It</h1>
       <uploadedFile />
 
       <search />
@@ -31,5 +31,6 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+
 }
 </style>

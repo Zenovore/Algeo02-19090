@@ -3,7 +3,10 @@
     <form action="/" method="get" v-on:submit.prevent="submitQuery">
       <input type="text" placeholder="Type query here..." id="q" name="q" v-model="searchStr"/>
       <!-- Kalo bisa pake nerd font aja biar jadi ikon search itu -->
-      <input type="submit" value="Cari" />
+        <button type="submit">
+          <i class ="fas fa-search"></i>    
+        </button>
+
     </form>
   </div>
 
