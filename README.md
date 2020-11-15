@@ -66,7 +66,7 @@ dapat diukur dengan cosine similarity
 1. Buka terminal baru lalu pindah ke direktori *project* ini
 1. Install `serve` dengan `npm install -g serve`
 1. lakukan `cd src/frontend`
-1. lakukan `serve -s dist`
+1. jalankan `npm run build && serve dist`
 1. Buka `http://localhost:5000/` di peramban
 
 ## Code Examples

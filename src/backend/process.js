@@ -2,8 +2,10 @@
 /* doc = {
  *  filename : Val, // dari awal
  *  konten : Val, // dari awal
+ *  kontenOriginal: Val, // dari awal
  *  vektor : Val, // ditambah di tengah
  *  similarity : Val, // ditambah di tengah
+ *  firstSentence : Val, // ditambah di tengah
  * },
  *
  * untuk menyimpan kata-kata pada query, akan digunakan suatu list of
@@ -16,6 +18,8 @@ const stopwords = require('./stopwords');
 const parsedoc = require('./parsedoc');
 
 const stopwordsID = stopwords.stopwordsID;
+
+let termDictionary = [];
 
 /**
  * Fungsi untuk membersikan string dari punctuation dan merapihkan kata-kata
@@ -76,6 +80,7 @@ const removeStopwords = (string) => {
 const cleanString = (str) => {
   str = stemString(str);
   str = removeStopwords(str);
+  str.trim();
 
   return str;
 };
@@ -92,6 +97,16 @@ const removeEscapeChr = (str) => {
   str = str.replace(escapeChrRE, ' ');
   str = str.replace(whitespaceRE, ' ');
   return str;
+};
+
+/**
+ * TODO: comment
+ */
+const addToTermDict = (str) => {
+  str = str.split(' ');
+  str.forEach((word) => {
+    if (!termDictionary.includes(word)) termDictionary.push(word);
+  });
 };
 
 /**
@@ -122,12 +137,11 @@ const toObj = (query) => {
  * @params {string[]} queryWordList - list kata-kata pada dokumen
  * @Returns {object} - sesuai pada deskripsi fungsi
  */
-const createDocQueryObj = (docContent, queryWordList) => {
+const createDocQueryObj = (docContent, wordList) => {
   const docObj = toObj(docContent);
   const retObj = {};
 
-  for (const idx in queryWordList) {
-    const key = queryWordList[idx];
+  for (const key of wordList) {
     retObj[key] = key in docObj ? docObj[key] : 0;
   }
 
@@ -219,10 +233,12 @@ const toVector = (obj) => {
   return list;
 };
 
+/**
+ * TODO: comment
+ */
 exports.containsFile = (list, obj) => {
   for (let i = 0; i < list.length; ++i) {
     const el = list[i];
-    console.log({ elfileName: el.fileName, objfileName: obj.fileName });
     if (el.fileName === obj.fileName) {
       return true;
     }
@@ -237,25 +253,32 @@ exports.containsFile = (list, obj) => {
  * @params {string} query - query search
  */
 exports.testProcess = (query) => {
-  query = cleanString(query);
-  const queryVec = toVector(toObj(query));
-  const queryWordList = query.split(' ');
-
+  /* *** SETUP UNTUK TESTING *** */
   const filePath = 'test/';
   const docs = parsedoc.readAllDoc(filePath);
+  /* *** END SETUP *** */
+  termDictionary = [];
+
+  query = cleanString(query);
+  addToTermDict(query);
 
   docs.forEach((el) => {
-    const originalKonten = el.konten;
-    el.konten = cleanString(originalKonten);
-    el.vector = toVector(createDocQueryObj(el.konten, queryWordList));
-    const cosSim = cosineSim(queryVec, el.vector);
-    el.similarity = isNaN(cosSim) ? 0 : cosSim;
-    el.firstSentence = makeFirstSentence(removeEscapeChr(originalKonten));
+    el.konten = cleanString(el.kontenOriginal);
+    el.firstSentence = makeFirstSentence(removeEscapeChr(el.kontenOriginal));
+
+    addToTermDict(el.konten);
+  });
+
+  const queryVec = toVector(createDocQueryObj(query, termDictionary));
+
+  docs.forEach((el) => {
+    el.vector = toVector(createDocQueryObj(el.konten, termDictionary));
+    el.similarity = cosineSim(queryVec, el.vector);
   });
 
   sortSimilaritiesDsc(docs);
 
-  //console.log(docs);
+  console.log(docs);
   return docs;
 };
 
@@ -265,17 +288,23 @@ exports.testProcess = (query) => {
  * @params {object[]} docs - berisi object dokumen
  */
 exports.mainProcess = (query, docs) => {
+  termDictionary = [];
+
   query = cleanString(query);
-  const queryVec = toVector(toObj(query));
-  const queryWordList = query.split(' ');
+  addToTermDict(query);
 
   docs.forEach((el) => {
-    const originalKonten = el.kontenOriginal;
-    el.konten = cleanString(originalKonten);
-    el.vector = toVector(createDocQueryObj(el.konten, queryWordList));
-    const cosSim = cosineSim(queryVec, el.vector);
-    el.similarity = isNaN(cosSim) ? 0 : cosSim;
-    el.firstSentence = makeFirstSentence(removeEscapeChr(originalKonten));
+    el.konten = cleanString(el.kontenOriginal);
+    el.firstSentence = makeFirstSentence(removeEscapeChr(el.kontenOriginal));
+
+    addToTermDict(el.konten);
+  });
+
+  const queryVec = toVector(createDocQueryObj(query, termDictionary));
+
+  docs.forEach((el) => {
+    el.vector = toVector(createDocQueryObj(el.konten, termDictionary));
+    el.similarity = cosineSim(queryVec, el.vector);
   });
 
   sortSimilaritiesDsc(docs);

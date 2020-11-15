@@ -78,18 +78,5 @@ const readAllDoc = (fileDir) => {
   return GDocList;
 };
 
-// var array1 = [1,0,0,1];
-// var array2 = [1,0,0,0];
-
-// var p = cosineSim(array1,array2);
-
-// console.log(p);
-
-//console.log(parseDoc('../../test/Lipsum.html'));
-//console.log(parseDoc('../../test/Kuis1.txt'));
-//console.log(readAllDoc('../../test/'));
-
-//exports.parseDoc = parseDoc;
-
 exports.readAllDoc = readAllDoc;
 exports.parseDoc = parseDoc;
