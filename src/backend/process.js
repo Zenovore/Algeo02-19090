@@ -260,6 +260,7 @@ exports.testProcess = (query) => {
   termDictionary = [];
 
   query = cleanString(query);
+  const queryWords = query.split(' ');
   addToTermDict(query);
 
   docs.forEach((el) => {
@@ -279,7 +280,7 @@ exports.testProcess = (query) => {
   sortSimilaritiesDsc(docs);
 
   console.log(docs);
-  return docs;
+  return { docs: docs, qW: queryWords };
 };
 
 /**
@@ -291,6 +292,7 @@ exports.mainProcess = (query, docs) => {
   termDictionary = [];
 
   query = cleanString(query);
+  const queryWords = query.split(' ');
   addToTermDict(query);
 
   docs.forEach((el) => {
@@ -310,5 +312,5 @@ exports.mainProcess = (query, docs) => {
   sortSimilaritiesDsc(docs);
 
   console.log(docs);
-  return docs;
+  return { docs: docs, qW: queryWords };
 };

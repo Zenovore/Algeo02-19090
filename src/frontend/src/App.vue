@@ -5,11 +5,10 @@
       <button @click="showSearch" class="button is-info">Search</button>
       <button @click="showScraper" class="button is-info">Webscrape</button>
       <button @click="showAbout" class="button is-info">Perihal</button>
-      <uploadedFile v-if="uploadedFile"/>
-      <search v-if="search"/>
+      <uploadedFile v-if="search"/>
+      <search v-if="search" />
       <webScrape v-if="scraper"/>
       <aboutUs v-if="about"/>
-
     </div>
   </div>
 </template>
@@ -31,7 +30,6 @@ export default {
   data() {
     return {
       search: true,
-      uploadedFile:true,
       scraper: false,
       about: false,
     };
@@ -39,14 +37,20 @@ export default {
 
   methods: {
     showSearch() {
-      this.search = true; this.scraper = false; this.about = false; this.uploadedFile = true;
+      this.search = true;
+      this.scraper = false;
+      this.about = false;
     },
     showAbout() {
-      this.search = false; this.scraper = false; this.about = true; this.uploadedFile = false;
+      this.search = false;
+      this.scraper = false;
+      this.about = true;
     },
     showScraper() {
-      this.search = false; this.scraper = true; this.about = false; this.uploadedFile = false;
-    }
+      this.search = false;
+      this.scraper = true;
+      this.about = false;
+    },
   }
 }
 </script>
