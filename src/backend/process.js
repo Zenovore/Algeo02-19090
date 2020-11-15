@@ -259,9 +259,9 @@ exports.testProcess = (query) => {
   /* *** END SETUP *** */
   termDictionary = [];
 
-  query = cleanString(query);
-  const queryWords = query.split(' ');
-  addToTermDict(query);
+  const cleanQuery = cleanString(query);
+  const queryWords = cleanQuery.split(' ');
+  addToTermDict(cleanQuery);
 
   docs.forEach((el) => {
     el.konten = cleanString(el.kontenOriginal);
@@ -280,7 +280,13 @@ exports.testProcess = (query) => {
   sortSimilaritiesDsc(docs);
 
   console.log(docs);
-  return { docs: docs, qW: queryWords };
+  const queryObj = {
+    query: query,
+    cleanQuery: cleanQuery,
+    queryWords: queryWords,
+    vetor: queryVec,
+  };
+  return { docs: docs, query: queryObj };
 };
 
 /**
@@ -291,9 +297,9 @@ exports.testProcess = (query) => {
 exports.mainProcess = (query, docs) => {
   termDictionary = [];
 
-  query = cleanString(query);
-  const queryWords = query.split(' ');
-  addToTermDict(query);
+  const cleanQuery = cleanString(query);
+  const queryWords = cleanQuery.split(' ');
+  addToTermDict(cleanQuery);
 
   docs.forEach((el) => {
     el.konten = cleanString(el.kontenOriginal);
@@ -312,5 +318,12 @@ exports.mainProcess = (query, docs) => {
   sortSimilaritiesDsc(docs);
 
   console.log(docs);
-  return { docs: docs, qW: queryWords };
+  const queryObj = {
+    query: query,
+    cleanQuery: cleanQuery,
+    queryWords: queryWords,
+    vector: queryVec,
+  };
+
+  return { docs: docs, query: queryObj };
 };
