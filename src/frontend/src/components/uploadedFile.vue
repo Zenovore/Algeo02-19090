@@ -1,4 +1,5 @@
 <template>
+  <p> <a href="http:localhost/8081">Search</a>  | <a href="">About Us</a></p>
   <form @submit.prevent="sendFile" enctype="multipart/form-data">
 
     <div class="field">

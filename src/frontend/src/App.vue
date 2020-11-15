@@ -13,12 +13,35 @@
 <script>
 import search from './components/search.vue'
 import uploadedFile from './components/uploadedFile.vue'
+import webScrape from './components/webScrape.vue'
+import aboutUs from './components/aboutUs.vue'
 
 export default {
   name: 'App',
   components: {
     search,
-    uploadedFile
+    uploadedFile,
+    webScrape,
+    aboutUs
+  },
+  data() {
+    return {
+      search: true,
+      scraper: false,
+      about: false,
+    };
+  },
+
+  method: {
+    showSearch() {
+      this.search = true; this.scraper = false; this.about = false;
+    },
+    showAbout() {
+      this.search = false; this.scraper = false; this.about = true;
+    },
+    showScraper() {
+      this.search = false; this.scraper = true; this.about = false;
+    }
   }
 }
 </script>
