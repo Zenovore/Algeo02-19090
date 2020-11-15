@@ -1,20 +1,20 @@
 'use strict';
 
-/**
- * Imports
- */
+/* *** Imports *** */
+// from npm library
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const bp = require('body-parser');
 
+// from other js files in this project
 const proc = require('./process');
 const parsedoc = require('./parsedoc');
 const scraper = require('./scraper');
 
-const GFileDir = './src/frontend/public/uploads/';
-
+/* *** Global variables *** */
+const GFileDir = './src/frontend/public/uploads/'; // path ke tempat upload
 let GFilesList = []; // List files objects
 
 // konfigurasi server express baru
@@ -26,12 +26,13 @@ const serverConfig = {
 // Inisialisasi instance express baru
 const app = express();
 
+// setup middleware untuk express
 app.use(express.static(path.join(__dirname, '../frontend/')));
 app.use(bp.urlencoded({ extended: false }));
 app.use(bp.json());
 
 /**
- * Routing untuk memberikan query search
+ * Routing ke API searching
  */
 app.get('/search', (req, res) => {
   const query = req.query.q.toLowerCase();
@@ -44,10 +45,9 @@ app.get('/search', (req, res) => {
 });
 
 /**
- * Routing untuk menguji searching
+ * Routing ke API pengujian searching
  */
 app.get('/test', (req, res) => {
-  //GFilesList = [];
   const query = req.query.q;
 
   const hasil = proc.testProcess(query);
@@ -56,6 +56,9 @@ app.get('/test', (req, res) => {
   return res.json(hasil);
 });
 
+/**
+ * Routing ke API web scaper
+ */
 app.post('/scraper', async (req, res) => {
   // hayolo tiba2 angkatan 19 dipanggil
   const result = await scraper.extractHTML(
@@ -72,9 +75,13 @@ app.post('/scraper', async (req, res) => {
  * Routing ke start-page
  */
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/public/index.html'));
+  //res.sendFile(path.join(__dirname, '../frontend/public/index.html'));
+  res.send('Hi');
 });
 
+/**
+ * filter file untuk multer
+ */
 const filterfile = function (req, file, cb) {
   // Accept txt or html only
   if (!file.originalname.match(/(txt|html)$/i)) {
@@ -103,7 +110,7 @@ const storage = multer.diskStorage({
 });
 
 /**
- * Routing untuk nerima upload
+ * Routing ke API upload file
  */
 let upload = multer({ storage: storage, fileFilter: filterfile }).array(
   'files',

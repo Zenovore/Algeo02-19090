@@ -14,25 +14,31 @@
       </tr>
       <tr>
         <td>
-          <select id="filter-method" v-model="filterMethod">
-            <option
-            v-bind:value="index"
-            v-for="(option, index) in possibleFilterMethod"
-            v-bind:key="index">
-              {{ option }}
-            </option>
-          </select>
+          <div class="select" style="width:inherit">
+            <select id="filter-method" v-model="filterMethod">
+              
+              <option
+              v-bind:value="index"
+              v-for="(option, index) in possibleFilterMethod"
+              v-bind:key="index">
+                {{ option }}
+              </option>
+              <option>Select Dropdown</option>
+            </select>
+          </div>
         </td>
         <td>
-          <input type="text" placeholder="URL" id="url" v-model="url"/>
+          <input type="text" class="input" style="width:100%" placeholder="URL" id="url" v-model="url"/>
         </td>
         <td>
-          <input type="text" placeholder="Filter" id="filter" v-model="filter" />
-        </td>
-        <td>
-          <button type="scrape">
-            <i class ="fas fa-search"></i>
-          </button>
+          <div class ="field">
+            <input type="text" class="input" style="width:85%" placeholder="Filter" id="filter" v-model="filter" />
+            <button type="scrape">
+              <span class="icon is-medium">
+                <i class ="fas fa-search"></i>
+              </span>
+            </button>
+          </div>
         </td>
       </tr>
     </table>
@@ -92,12 +98,18 @@ export default {
 }
 </script>
 
-<style scope>
+<style scoped>
 td {
   padding: 0px 50px;
 }
 
 td input {
   width: 100%;
+}
+.input{
+  opacity: 70%;
+}
+.select{
+  opacity: 70%;
 }
 </style>

@@ -1,12 +1,15 @@
 <template>
   <div class="search-bar">
     <form action="/" method="get" v-on:submit.prevent="submitQuery">
-      <input type="text" placeholder="Type query here..." id="q" name="q" v-model="searchStr"/>
-      <!-- Kalo bisa pake nerd font aja biar jadi ikon search itu -->
-        <button type="submit">
-          <i class ="fas fa-search"></i>
-        </button>
-
+      <div class ="field" style="width:inherit; height:inherit">
+        <input class="input" type="text" style="width:60%" placeholder="Type query here..." id="q" name="q" v-model="searchStr"/>       
+          <button type="submit" style="width:inherit; height:inherit">
+            <span class="icon is-medium">
+              <i class ="fas fa-search"></i>
+            </span>
+          </button>
+        <!-- Kalo bisa pake nerd font aja biar jadi ikon search itu -->
+      </div>
     </form>
   </div>
 
@@ -21,13 +24,19 @@
     </div>
   </div>
 
-  <table>
-  </table>
+  <tableQuery :isSearched="this.isSearched" :docs="this.docs" :query="this.queryResult"/>
+
 </template>
 
 <script>
+import tableQuery from './tableQuery.vue';
+
+
 export default {
   name: 'search',
+  components: {
+    tableQuery,
+  },
   data() {
     return {
       searchStr: '',
@@ -82,5 +91,8 @@ export default {
 .search-result {
   text-align: left;
   padding: 20px 0px;
+}
+.input{
+  opacity: 70%;
 }
 </style>

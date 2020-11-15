@@ -20,16 +20,13 @@
               Choose a File
             </span>
           </span>
-
+        </label>
+        <label class ="file-label" style="justify-content: inherit;" >
+          <button class="button is-info" style="margin: 0px 0px 0px 5px; ">Send</button>
         </label>
       </div>
     </div>
-      <div v-if="message"
-    :class="`message ${error ? 'is-danger' : 'is-success'}`"
-  >
-    <div class="message-body">{{message}}</div>
-  </div>
-    <div class="field">
+    <div class="field" style="margin:50px 250px 25px 250px">
       <div v-for="(file,index) in files" :key="index" class="level"
         :class="`level ${file.invalidMessage && 'has-text-danger'}`" >
         <div class="level-left">
@@ -45,9 +42,12 @@
         </div>
       </div>
     </div>
-    <div class ="field">
-        <button class="button is-info">Send</button>
+    <div v-if="message" style="margin:0px 250px 25px 250px"
+    :class="`message ${error ? 'is-danger' : 'is-success'}`"
+    >
+      <div class="message-body">{{message}}</div>
     </div>
+
   </form>
 </template>
 
@@ -122,9 +122,5 @@ export default {
     }
     .file-icon{
         margin-right: 0%;
-    }
-    .button{
-        padding-right: 5em;
-        padding-left: 5em;
     }
 </style>

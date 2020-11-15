@@ -51,8 +51,8 @@ export default {
         text-align: initial;
     }
     .middle{
-        margin: 100px;
-        padding: 50px;
+        margin: 0px 100px 100px 100px;
+        padding: 0px 50px 50px 50px;
         justify-content: center;
     }
     p{

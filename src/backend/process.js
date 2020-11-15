@@ -1,11 +1,11 @@
 /* *** Bentuk object untuk document *** */
 /* doc = {
- *  filename : Val, // dari awal
- *  konten : Val, // dari awal
- *  kontenOriginal: Val, // dari awal
- *  vektor : Val, // ditambah di tengah
- *  similarity : Val, // ditambah di tengah
- *  firstSentence : Val, // ditambah di tengah
+ *  filename : Val, // dari awal, nama file
+ *  konten : Val, // dari awal, isi dokumen yang udah di-stem dan diapus stopwords-nya
+ *  kontenOriginal: Val, // dari awal, isi dokumen asli
+ *  vektor : Val, // ditambah di tengah, vektor dari dokumen
+ *  similarity : Val, // ditambah di tengah, hasil cosine similarity
+ *  firstSentence : Val, // ditambah di tengah, kalimat pertama tiap dokumen
  * },
  *
  * untuk menyimpan kata-kata pada query, akan digunakan suatu list of
@@ -13,12 +13,16 @@
  * queryWords = [Q1, Q2, Q3, ...]
  */
 
+/* *** Imports *** */
+// npm library
 const sastrawi = require('sastrawijs');
 const stopwords = require('./stopwords');
 const parsedoc = require('./parsedoc');
 
+// other js files in this project
 const stopwordsID = stopwords.stopwordsID;
 
+/* *** global variables *** */
 let termDictionary = [];
 
 /**
@@ -62,6 +66,7 @@ const removeStopwords = (string) => {
     }
   }
 
+  // Masukin kata yg buka stopwrod ke hasil
   for (let i = 0; i < kata.length; i++) {
     let katabersih = kata[i].split('.').join('');
     if (!stopwordsID.includes(katabersih) || count == 0) {
@@ -80,7 +85,7 @@ const removeStopwords = (string) => {
 const cleanString = (str) => {
   str = stemString(str);
   str = removeStopwords(str);
-  str.trim();
+  str.trim(); // Biar ga ada spasi di blkg atau di depan
 
   return str;
 };
@@ -92,15 +97,17 @@ const cleanString = (str) => {
  * @Returns {String} str yang sudah dibersihkan
  */
 const removeEscapeChr = (str) => {
-  const escapeChrRE = /(\n|\r|\t)/g;
-  const whitespaceRE = /\s\s+/g;
+  const escapeChrRE = /(\n|\r|\t)/g; // RE untuk karakter \n, \t, \r
+  const whitespaceRE = /\s\s+/g; // RE untuk spasi yg muncul lebih dari satu kali
   str = str.replace(escapeChrRE, ' ');
   str = str.replace(whitespaceRE, ' ');
   return str;
 };
 
 /**
- * TODO: comment
+ * Fungsi untuk menambahkan kata-kata pada str ke dalam database (dalam hal
+ * ini, adalah variabel global termDictionary)
+ * @param {String} str - string yang kata-katanya ingin ditambahkan ke databse
  */
 const addToTermDict = (str) => {
   str = str.split(' ');
@@ -142,6 +149,8 @@ const createDocQueryObj = (docContent, wordList) => {
   const retObj = {};
 
   for (const key of wordList) {
+    // kalau 'key' ada di dokumen, maka banyaknya akan disalin ke dalam object,
+    // jika tidak maka akan disalin nilai 0
     retObj[key] = key in docObj ? docObj[key] : 0;
   }
 
@@ -165,21 +174,25 @@ const sortSimilaritiesDsc = (arrObj) => {
  * @Returns String kalimat pertama dari str
  */
 const makeFirstSentence = (str) => {
-  const pemisah = '.';
+  const period = '.';
   const charCount = 100;
 
   let existsPeriod = false;
   let i = 0;
   for (; i < str.length && !existsPeriod; ++i) {
     const chr = str[i];
-    if (chr === pemisah) {
+    if (chr === period) {
       existsPeriod = true;
     }
   }
 
+  // Banyak karakter tidak sampai charCount dan tidak ada period
   if (str.length <= charCount && !existsPeriod) return str;
+  // banyak karakter melebihi charCount atau ada priod
   else if (!existsPeriod || i > charCount)
+    // potong lalu tambahkan elipsis
     return `${str.slice(0, charCount)}...`;
+  // ada period dan banyak karakter kurang dari charCount
   else return str.slice(0, i);
 };
 
@@ -210,13 +223,16 @@ const cosineSim = (Q, D) => {
   let mQ = 0; // ||Q||
   let mD = 0; // ||D||
 
+  // mencari hasil penjumlahan kuadrat tiap elemen di Q dan D
   for (i = 0; i < Q.length; i++) {
     mQ += Q[i] * Q[i];
     mD += D[i] * D[i];
   }
 
+  // menghitung panjang vetkor Q dan D
   mQ = Math.sqrt(mQ);
   mD = Math.sqrt(mD);
+
   //console.log({ dotproduct: dotproduct, mQ: mQ, mD: mD });
   return dotproduct / (mQ * mD); // rumus cosine sim
 };
@@ -234,7 +250,11 @@ const toVector = (obj) => {
 };
 
 /**
- * TODO: comment
+ * Fungsi untuk memeriksa apakah di suatu list dokumen sudah memiliki dokumen
+ * dengan **nama** yang sama
+ * @param {Array} list - list dokumen yang ingin diperiksa
+ * @param {Object} obj - object file yang ingin diperiksa
+ * @Returns suatu nilai Boolean, true jika obj ada di list, false jika tidak
  */
 exports.containsFile = (list, obj) => {
   for (let i = 0; i < list.length; ++i) {
@@ -251,6 +271,7 @@ exports.containsFile = (list, obj) => {
 /**
  * Fungsi proses yang digunakan untuk menguji algoritma pencarian
  * @params {string} query - query search
+ * TODO: Comemnts
  */
 exports.testProcess = (query) => {
   /* *** SETUP UNTUK TESTING *** */
@@ -281,10 +302,10 @@ exports.testProcess = (query) => {
 
   console.log(docs);
   const queryObj = {
-    query: query,
-    cleanQuery: cleanQuery,
-    queryWords: queryWords,
-    vetor: queryVec,
+    query: query, // query original (yg dikirim user)
+    cleanQuery: cleanQuery, // query yg udh dibersihin (udh di-stem, diapusin stopwords)
+    queryWords: queryWords, // list of kata-kata query yang udh dibersihin
+    vector: queryVec, // jumlah kemunculan tiap kata pada query yg koresponden dengan kamus kata
   };
   return { docs: docs, query: queryObj };
 };
@@ -293,6 +314,7 @@ exports.testProcess = (query) => {
  * Fungsi proses yang digunakan untuk menguji algoritma pencarian
  * @params {string} query - query search
  * @params {object[]} docs - berisi object dokumen
+ * TODO: Comemnts
  */
 exports.mainProcess = (query, docs) => {
   termDictionary = [];
@@ -319,10 +341,10 @@ exports.mainProcess = (query, docs) => {
 
   console.log(docs);
   const queryObj = {
-    query: query,
-    cleanQuery: cleanQuery,
-    queryWords: queryWords,
-    vector: queryVec,
+    query: query, // query original (yg dikirim user)
+    cleanQuery: cleanQuery, // query yg udh dibersihin (udh di-stem, diapusin stopwords)
+    queryWords: queryWords, // list of kata-kata query yang udh dibersihin
+    vector: queryVec, // jumlah kemunculan tiap kata pada query yg koresponden dengan kamus kata
   };
 
   return { docs: docs, query: queryObj };

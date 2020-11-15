@@ -1,14 +1,16 @@
 <template>
-  <div class="section">
-    <div class="container">
-      <h1 style = " font-size: 100%;">Search It</h1>
-      <button @click="showSearch" class="button is-info">Search</button>
-      <button @click="showScraper" class="button is-info">Webscrape</button>
-      <button @click="showAbout" class="button is-info">Perihal</button>
-      <uploadedFile v-if="search"/>
-      <search v-if="search" />
-      <webScrape v-if="scraper"/>
-      <aboutUs v-if="about"/>
+  <div class="background">
+    <div class="section">
+      <div class="container">
+        <h1 style = " font-size: 500%; font-family: 'Open Sans', sans-serif; padding-bottom:15px">Search-It</h1>
+        <button @click="showSearch" class="button is-info is-success">Search</button>
+        <button @click="showScraper" class="button is-info is-success">Webscrape</button>
+        <button @click="showAbout" class="button is-info is-success">Perihal</button>
+        <uploadedFile v-if="search"/>
+        <search v-if="search" />
+        <webScrape v-if="scraper"/>
+        <aboutUs v-if="about"/>
+      </div>
     </div>
   </div>
 </template>
@@ -63,6 +65,14 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
-
+}
+.background{
+  background-color:rgb(248, 194, 145);
+}
+.button{
+  margin:10px 10px 20px 10px;
+}
+.button.is-success:hover{
+  background-color: black;
 }
 </style>
