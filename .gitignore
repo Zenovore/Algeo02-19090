@@ -124,4 +124,6 @@ dist
 
 coc-settings.json
 docs/*.xopp
-./src/frontend/node_modules
+src/frontend/node_modules
+src/frontend/public/uploads
+src/frontend/dist/uploads
