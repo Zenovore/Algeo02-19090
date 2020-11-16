@@ -151,9 +151,11 @@ const createDocQueryObj = (docContent, wordList) => {
   for (const key of wordList) {
     // kalau 'key' ada di dokumen, maka banyaknya akan disalin ke dalam object,
     // jika tidak maka akan disalin nilai 0
-    retObj[key] = key in docObj ? docObj[key] : 0;
+    retObj[key] =
+      key in docObj && !retObj.hasOwnProperty(key) ? docObj[key] : 0;
   }
 
+  console.log(retObj);
   return retObj;
 };
 
@@ -339,7 +341,7 @@ exports.mainProcess = (query, docs) => {
 
   sortSimilaritiesDsc(docs);
 
-  console.log(docs);
+  //console.log(docs);
   const queryObj = {
     query: query, // query original (yg dikirim user)
     cleanQuery: cleanQuery, // query yg udh dibersihin (udh di-stem, diapusin stopwords)

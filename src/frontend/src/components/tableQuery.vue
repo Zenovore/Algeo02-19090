@@ -1,5 +1,8 @@
 <template>
-  <div v-if="true">
+{{ docs }}
+{{ query }}
+{{ isSearched }}
+  <div v-if="isSearched">
     <table class="tableQuery">
       <tr v-for="row of tabelal" v-bind:key="row">
           <td v-for="col of row" v-bind:key="col">
@@ -50,18 +53,6 @@ export default {
             vector: queryVec, // jumlah kemunculan tiap kata pada query yg koresponden dengan kamus kata
           };
         */
-      //Header -- baris pertama [Term, Query, Doc1, Doc2, ...]
-      // const mergeObject = ((doc,query) => {
-      //   let matriks = [[]];
-      //   for (let i=0;i<doc.length;i++) {
-      //     for (let j=0;j<query.length;j++) {
-      //       matriks[i].push(doc[i].konten[j])
-      //     }
-      //   }
-      //   return matriks;
-      // });
-      //Header -- baris pertama [Term, Query, Doc1, Doc2, ...]
-      // let dokumen = mergeObject(this.docs,this.queryObj.queryWords);
       this.tabelal = [];
       let namafile = [];
       namafile.push("Term");
@@ -84,11 +75,7 @@ export default {
           } else if (j===1) { //kolom kedua diisi data dari query
             isi.push(this.query.vector[i]);
           } else { //kolom ketiga dan seterusnya diisi data dari dokumen
-            // k buat indexing file
-            //for (let k = 0; k < this.docs.length; k++) {
-              // console.log(this.docs[k].fileName, j);
             isi.push(this.docs[j-2].vector[i]);
-              // console.log(`${k} = k`);
             
           }
         }
@@ -111,5 +98,8 @@ export default {
 .searc-result {
   text-align: right;
 }
-
+.tableQuery {
+    border-style: solid;
+    border-color: black;
+}
 </style>

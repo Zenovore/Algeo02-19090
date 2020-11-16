@@ -14,9 +14,8 @@
       </tr>
       <tr>
         <td>
-          <div class="select" style="width:inherit">
+          <div class="select" style="width:inherit;">
             <select id="filter-method" v-model="filterMethod">
-              
               <option
               v-bind:value="index"
               v-for="(option, index) in possibleFilterMethod"
@@ -28,11 +27,11 @@
           </div>
         </td>
         <td>
-          <input type="text" class="input" style="width:100%" placeholder="URL" id="url" v-model="url"/>
+          <input type="text" class="input" style="width:100%;opacity=100%" placeholder="URL" id="url" v-model="url"/>
         </td>
         <td>
           <div class ="field">
-            <input type="text" class="input" style="width:85%" placeholder="Filter" id="filter" v-model="filter" />
+            <input type="text" class="input" style="width:85%;opacity=100%" placeholder="Filter" id="filter" v-model="filter" />
             <button type="scrape">
               <span class="icon is-medium">
                 <i class ="fas fa-search"></i>
@@ -44,7 +43,7 @@
     </table>
   </form>
 
-  <div v-if="isScraped">
+  <div v-if="isScraped" style="margin 20px 50px 0px 50px; content-align:justify;">
     {{ scrapeRes }}
   </div>
 </template>
@@ -103,13 +102,13 @@ td {
   padding: 0px 50px;
 }
 
-td input {
-  width: 100%;
-}
-.input{
+/* td input {
+  width: 100% !important;
+} */
+/* .input{
   opacity: 70%;
-}
-.select{
+} */
+/* .select{
   opacity: 70%;
-}
+} */
 </style>

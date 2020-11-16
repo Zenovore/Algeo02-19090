@@ -1,8 +1,8 @@
 <template>
   <div class="search-bar">
     <form action="/" method="get" v-on:submit.prevent="submitQuery">
-      <div class ="field" style="width:inherit; height:inherit">
-        <input class="input" type="text" style="width:60%" placeholder="Type query here..." id="q" name="q" v-model="searchStr"/>       
+      <div class ="field" style="width:inherit; height:inherit;">
+        <input class="input" type="text" style="width:60%; opacity=100%" placeholder="Type query here..." id="q" name="q" v-model="searchStr"/>
           <button type="submit" style="width:inherit; height:inherit">
             <span class="icon is-medium">
               <i class ="fas fa-search"></i>
@@ -24,25 +24,28 @@
     </div>
   </div>
 
-  <tableQuery :isSearched="this.isSearched" :docs="this.docs" :query="this.queryResult"/>
+  <div v-if="isSearched">
+    <table class="tableQuery">
+      <tr v-for="row of tabelal" v-bind:key="row">
+          <td v-for="col of row" v-bind:key="col">
+              {{ col }}
+          </td>
+      </tr>
+    </table>
+  </div>
 
 </template>
 
 <script>
-import tableQuery from './tableQuery.vue';
-
-
 export default {
   name: 'search',
-  components: {
-    tableQuery,
-  },
   data() {
     return {
       searchStr: '',
       isSearched: false,
       docs: [],
-      queryResult: [],
+      query: [],
+      tabelal: [],
     };
   },
 
@@ -68,19 +71,61 @@ export default {
         .then(response => {
           const searchResult = response.data;
           this.docs = searchResult.docs;
-          this.queryResult = searchResult.query;
+          this.query = searchResult.query;
           this.isSearched = true;
         })
         .catch(err => {
           console.error(err);
         })
     },
+    jadiMatriks() {
+        /*
+          const queryObj = {
+            query: query, // query original (yg dikirim user)
+            cleanQuery: cleanQuery, // query yg udh dibersihin (udh di-stem, diapusin stopwords)
+            queryWords: queryWords, // list of kata-kata query yang udh dibersihin
+            vector: queryVec, // jumlah kemunculan tiap kata pada query yg koresponden dengan kamus kata
+          };
+        */
+      this.tabelal = [];
+      let namafile = [];
+      namafile.push("Term");
+      namafile.push("Query");
+      for (let i=0;i<this.docs.length;i++) {
+        namafile.push(this.docs[i].fileName);
+      }
+      this.tabelal.push(namafile);
+      console.log('hi');
+
+      //Isi -- baris kedua dst [[isi vektor Term],[isi vektor Query],[isi vektor Doc1],...]
+      let isi = [];
+      // i adalah indexing kata dalam query
+      console.log(this.query.queryWords);
+      for (let i=0;i<this.query.queryWords.length;i++) {
+        isi = [];
+        // j buat indexing vektor di index kbrp yg dipush ke list
+        for (let j=0;j<this.docs.length+2;j++) {
+          if (j===0) {  //Kolom pertama diisi data dari term
+            isi.push(this.query.queryWords[i]);
+          } else if (j===1) { //kolom kedua diisi data dari query
+            isi.push(this.query.vector[i]);
+          } else { //kolom ketiga dan seterusnya diisi data dari dokumen
+            isi.push(this.docs[j-2].vector[i]);
+          }
+        }
+        this.tabelal.push(isi);
+      }
+    },
   },
 
   watch: {
     docs() {
       console.log('got new data');
-    }
+    },
+    isSearched() {
+      console.log('membuat tabel...')
+      this.jadiMatriks();
+    },
   }
 }
 
@@ -92,7 +137,18 @@ export default {
   text-align: left;
   padding: 20px 0px;
 }
-.input{
-  opacity: 70%;
+
+.tableQuery {
+    border-style: solid;
+    border-color: black;
 }
+
+td {
+  padding: 10px 15px;
+  border-style: groove;
+  border-color: black;
+}
+/* .input{
+  opacity: 70%;
+} */
 </style>
