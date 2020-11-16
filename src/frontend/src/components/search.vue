@@ -100,8 +100,8 @@ export default {
       //Isi -- baris kedua dst [[isi vektor Term],[isi vektor Query],[isi vektor Doc1],...]
       let isi = [];
       // i adalah indexing kata dalam query
-      console.log(this.query.queryWords);
-      for (let i=0;i<this.query.queryWords.length;i++) {
+      console.log(this.query.uniqueWords);
+      for (let i=0;i<this.query.uniqueWords.length;i++) {
         isi = [];
         // j buat indexing vektor di index kbrp yg dipush ke list
         for (let j=0;j<this.docs.length+2;j++) {

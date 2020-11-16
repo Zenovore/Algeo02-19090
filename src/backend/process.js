@@ -155,7 +155,7 @@ const createDocQueryObj = (docContent, wordList) => {
       key in docObj && !retObj.hasOwnProperty(key) ? docObj[key] : 0;
   }
 
-  console.log(retObj);
+  //console.log(retObj);
   return retObj;
 };
 
@@ -284,6 +284,10 @@ exports.testProcess = (query) => {
 
   const cleanQuery = cleanString(query);
   const queryWords = cleanQuery.split(' ');
+  let queryUniqueWords = [];
+  queryWords.forEach((e) => {
+    if (!queryUniqueWords.includes(e)) queryUniqueWords.push(e);
+  });
   addToTermDict(cleanQuery);
 
   docs.forEach((el) => {
@@ -307,6 +311,7 @@ exports.testProcess = (query) => {
     query: query, // query original (yg dikirim user)
     cleanQuery: cleanQuery, // query yg udh dibersihin (udh di-stem, diapusin stopwords)
     queryWords: queryWords, // list of kata-kata query yang udh dibersihin
+    uniqueWords: queryUniqueWords, // kata-kata unik pada query
     vector: queryVec, // jumlah kemunculan tiap kata pada query yg koresponden dengan kamus kata
   };
   return { docs: docs, query: queryObj };
@@ -323,6 +328,10 @@ exports.mainProcess = (query, docs) => {
 
   const cleanQuery = cleanString(query);
   const queryWords = cleanQuery.split(' ');
+  let queryUniqueWords = [];
+  queryWords.forEach((e) => {
+    if (!queryUniqueWords.includes(e)) queryUniqueWords.push(e);
+  });
   addToTermDict(cleanQuery);
 
   docs.forEach((el) => {
@@ -346,8 +355,10 @@ exports.mainProcess = (query, docs) => {
     query: query, // query original (yg dikirim user)
     cleanQuery: cleanQuery, // query yg udh dibersihin (udh di-stem, diapusin stopwords)
     queryWords: queryWords, // list of kata-kata query yang udh dibersihin
+    uniqueWords: queryUniqueWords, // kata-kata unik pada query
     vector: queryVec, // jumlah kemunculan tiap kata pada query yg koresponden dengan kamus kata
   };
+  console.log(queryObj);
 
   return { docs: docs, query: queryObj };
 };
