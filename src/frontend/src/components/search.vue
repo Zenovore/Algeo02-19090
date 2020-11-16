@@ -100,13 +100,14 @@ export default {
       //Isi -- baris kedua dst [[isi vektor Term],[isi vektor Query],[isi vektor Doc1],...]
       let isi = [];
       // i adalah indexing kata dalam query
-      console.log(this.query.uniqueWords);
-      for (let i=0;i<this.query.uniqueWords.length;i++) {
+      console.log(this.query.uniqueWordsOnly);
+      for (let i=0;i<this.query.uniqueWordsList.length;i++) {
+        console.log(this.query.uniqueWordsList[i]);
         isi = [];
         // j buat indexing vektor di index kbrp yg dipush ke list
         for (let j=0;j<this.docs.length+2;j++) {
           if (j===0) {  //Kolom pertama diisi data dari term
-            isi.push(this.query.queryWords[i]);
+            isi.push(this.query.uniqueWordsList[i]);
           } else if (j===1) { //kolom kedua diisi data dari query
             isi.push(this.query.vector[i]);
           } else { //kolom ketiga dan seterusnya diisi data dari dokumen

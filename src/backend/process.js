@@ -1,3 +1,4 @@
+'use strict';
 /* *** Bentuk object untuk document *** */
 /* doc = {
  *  filename : Val, // dari awal, nama file
@@ -226,7 +227,7 @@ const cosineSim = (Q, D) => {
   let mD = 0; // ||D||
 
   // mencari hasil penjumlahan kuadrat tiap elemen di Q dan D
-  for (i = 0; i < Q.length; i++) {
+  for (let i = 0; i < Q.length; i++) {
     mQ += Q[i] * Q[i];
     mD += D[i] * D[i];
   }
@@ -273,7 +274,7 @@ exports.containsFile = (list, obj) => {
 /**
  * Fungsi proses yang digunakan untuk menguji algoritma pencarian
  * @params {string} query - query search
- * TODO: Comemnts
+ * @returns - object hasil pemrosesan query dan dokumen
  */
 exports.testProcess = (query) => {
   /* *** SETUP UNTUK TESTING *** */
@@ -321,7 +322,7 @@ exports.testProcess = (query) => {
  * Fungsi proses yang digunakan untuk menguji algoritma pencarian
  * @params {string} query - query search
  * @params {object[]} docs - berisi object dokumen
- * TODO: Comemnts
+ * @returns object hasil pengolahan pada docs dan query
  */
 exports.mainProcess = (query, docs) => {
   termDictionary = [];
@@ -355,7 +356,8 @@ exports.mainProcess = (query, docs) => {
     query: query, // query original (yg dikirim user)
     cleanQuery: cleanQuery, // query yg udh dibersihin (udh di-stem, diapusin stopwords)
     queryWords: queryWords, // list of kata-kata query yang udh dibersihin
-    uniqueWords: queryUniqueWords, // kata-kata unik pada query
+    uniqueWordsList: queryUniqueWords, // kata-kata unik pada query
+    uniqueWordsOnly: queryUniqueWords.join(' '),
     vector: queryVec, // jumlah kemunculan tiap kata pada query yg koresponden dengan kamus kata
   };
   console.log(queryObj);

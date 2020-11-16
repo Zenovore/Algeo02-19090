@@ -5,7 +5,6 @@ Tubes 2 Aljabar Linear dan Geometri IF2123
 * [General info](#general-info)
 * [Dependencies](#dependencies)
 * [Screenshots](#screenshots)
-* [Technologies](#technologies)
 * [Setup](#setup)
 * [Features](#features)
 * [Status](#status)
@@ -49,12 +48,7 @@ dapat diukur dengan cosine similarity
     * bulma
 
 ## Screenshots<a href="screenshots"></a>
-![Example screenshot](./img/screenshot.png)
-
-## Technologies<a href="technologies"></a>
-* Tech 1 - version 1.0
-* Tech 2 - version 2.0
-* Tech 3 - version 3.0
+Terlampir di laporan Bab IV
 
 ## Setup<a href="setup"></a>
 1. Buka terminal
@@ -70,8 +64,7 @@ dapat diukur dengan cosine similarity
 1. Buka `http://localhost:5000/` di peramban
 
 ## Code Examples
-Show examples of usage:
-`put-your-code-here`
+Terlampir di laporan Bab IV
 
 ## Features<a href="features"></a>
 Upcoming features
@@ -80,15 +73,20 @@ Upcoming features
 * Mengupload dokumen milik sendiri dan mengetahui relevansi kata yang diingini
 
 ## Status<a href="status"></a>
-Project is: _in progress_
+Project is: ***complete***
 
 ## Inspiration<a href="inspiration"></a>
-Credits
+Credits:
+* Vue.js documentations
+* Vue.js tutorials
+* axios tutorials
+* Node.js tutorials
+* Express.js tutorials
 
 ## Kelompok<a href="kelompok"></a>
 
 | Nama | NIM | Kerjaan |
 |------|-----|---------|
-| Alexander | 13519090 | TBD |
-| Alvin Wilta | 13519163 | TBD |
-| Josep Marcello | 13519164 | TBD |
+| Alexander | 13519090 | Mekanisme penggunggahan dokumen & *styling* |
+| Alvin Wilta | 13519163 | Persamaan cosine & tabel |
+| Josep Marcello | 13519164 | *Web-scraper* & menghubungkan search dari *backend* ke *frontend* |
