@@ -342,7 +342,7 @@ exports.mainProcess = (query, docs) => {
     addToTermDict(el.konten);
   });
 
-  const queryVec = toVector(createDocQueryObj(query, termDictionary));
+  const queryVec = toVector(createDocQueryObj(cleanQuery, termDictionary));
 
   docs.forEach((el) => {
     el.vector = toVector(createDocQueryObj(el.konten, termDictionary));
